@@ -9,9 +9,13 @@ public class Player {
     private int number;
     private ArrayList<AdventureCard> hand;
 
+    private int shieldNum;
+
     public Player(int number){
         this.number = number;
         hand = new ArrayList<>();
+
+        this.shieldNum = 0;
     }
 
     public void addToHand(AdventureCard card){
@@ -20,6 +24,14 @@ public class Player {
 
     public ArrayList<AdventureCard> getHand(){
         return hand;
+    }
+
+    public int getShieldNum(){
+        return shieldNum;
+    }
+
+    public void giveShield(int x){
+        shieldNum += x;
     }
 
 }

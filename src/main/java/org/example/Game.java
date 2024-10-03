@@ -3,10 +3,15 @@ package org.example;
 import jdk.jfr.Event;
 import org.example.Card.*;
 
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Scanner;
 
 public class Game {
+
+    private Scanner input;
+    private PrintWriter output;
 
     private ArrayList<Player> players;
 
@@ -14,6 +19,13 @@ public class Game {
     private ArrayList<EventCard> eventDeck;
 
     public Game(int playersNumber) {
+       this(playersNumber, new Scanner(System.in), new PrintWriter(System.out));
+    }
+
+    public Game(int playersNumber, Scanner input, PrintWriter output) {
+        this.input = input;
+        this.output = output;
+
         this.players = new ArrayList<>();
         for (int i = 0; i < playersNumber; i++){
             this.players.add(new Player(i));
@@ -64,6 +76,19 @@ public class Game {
         addEventCards(eventDeck, new EventCard("Plague"), 1);
         addEventCards(eventDeck, new EventCard("Queen's Favor"), 2);
         addEventCards(eventDeck, new EventCard("Prosperity"), 2);
+    }
+
+    public boolean outputWinner(){
+        boolean returnVal = false;
+
+        for (int i = 0; i < players.size(); i++){
+            if(players.get(i).getShieldNum() >= 7){
+                output.println(String.format("Player %d has reached 7 shields!", i + 1));
+                returnVal = true;
+            }
+        }
+
+        return returnVal;
     }
 
     public void addAdventureCards(ArrayList<AdventureCard> deck, AdventureCard card, int amount){
