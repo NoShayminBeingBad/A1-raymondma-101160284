@@ -4,14 +4,35 @@ import jdk.jfr.Event;
 import org.example.Card.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Game {
+
+    private ArrayList<Player> players;
 
     private ArrayList<AdventureCard> adventureDeck;
     private ArrayList<EventCard> eventDeck;
 
-    public Game() {
+    public Game(int playersNumber) {
+        this.players = new ArrayList<>();
+        for (int i = 0; i < playersNumber; i++){
+            this.players.add(new Player(i));
+        }
+    }
+
+    public void setUpGame(){
         setUpDecks();
+        Collections.shuffle(adventureDeck);
+        Collections.shuffle(eventDeck);
+        dealHands();
+    }
+
+    public void dealHands(){
+        for (int i = 0; i < 12; i++){
+            for (int j = 0; j < players.size(); j++){
+                players.get(j).addToHand(adventureDeck.removeFirst());
+            }
+        }
     }
 
     public void setUpDecks(){
@@ -63,6 +84,10 @@ public class Game {
 
     public ArrayList<EventCard> getEventDeck(){
         return eventDeck;
+    }
+
+    public Player getPlayer(int p){
+        return players.get(p);
     }
 
 }
