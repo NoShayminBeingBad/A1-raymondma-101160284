@@ -17,7 +17,9 @@ class GameTest {
 
     @Test
     public void RESP_1_TEST_1(){
-        Game game = new Game();
+        Game game = new Game(0);
+
+        game.setUpDecks();
 
         ArrayList<AdventureCard> adventureDeck = game.getAdventureDeck();
 
@@ -85,5 +87,24 @@ class GameTest {
         }
 
         return count;
+    }
+
+    @Test
+    public void RESP_2_TEST_1(){
+        Game game = new Game(4);
+
+        game.setUpDecks();
+
+        int adventureDeckStart = game.getAdventureDeck().size();
+
+        game.dealHands();
+
+        for (int i = 0; i < 4; i++){
+            Player player = game.getPlayer(i);
+            Assertions.assertEquals(12, player.getHand().size());
+        }
+
+        Assertions.assertTrue(game.getAdventureDeck().size() < adventureDeckStart);
+
     }
 }
