@@ -2,6 +2,7 @@ package org.example;
 
 import org.example.Card.AdventureCard;
 
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 public class Player {
@@ -32,6 +33,10 @@ public class Player {
 
     public void giveShield(int x){
         shieldNum += x;
+    }
+
+    public void printHand(PrintWriter output){
+
     }
 
 }

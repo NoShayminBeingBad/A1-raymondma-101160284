@@ -16,8 +16,8 @@ public class Game {
     private int turnCount;
     private ArrayList<Player> players;
 
-    private ArrayList<AdventureCard> adventureDeck;
-    private ArrayList<EventCard> eventDeck;
+    private Deck<AdventureCard> adventureDeck;
+    private Deck<EventCard> eventDeck;
 
     public Game(int playersNumber) {
        this(playersNumber, new Scanner(System.in), new PrintWriter(System.out));
@@ -36,48 +36,48 @@ public class Game {
 
     public void setUpGame(){
         setUpDecks();
-        Collections.shuffle(adventureDeck);
-        Collections.shuffle(eventDeck);
+        adventureDeck.shuffle();
+        eventDeck.shuffle();
         dealHands();
     }
 
     public void dealHands(){
         for (int i = 0; i < 12; i++){
             for (int j = 0; j < players.size(); j++){
-                players.get(j).addToHand(adventureDeck.removeFirst());
+                players.get(j).addToHand(adventureDeck.draw());
             }
         }
     }
 
     public void setUpDecks(){
-        this.adventureDeck = new ArrayList<>();
-        addAdventureCards(adventureDeck, new FoeCard(5), 8);
-        addAdventureCards(adventureDeck, new FoeCard(10), 7);
-        addAdventureCards(adventureDeck, new FoeCard(15), 8);
-        addAdventureCards(adventureDeck, new FoeCard(20), 7);
-        addAdventureCards(adventureDeck, new FoeCard(25), 7);
-        addAdventureCards(adventureDeck, new FoeCard(30), 4);
-        addAdventureCards(adventureDeck, new FoeCard(35), 4);
-        addAdventureCards(adventureDeck, new FoeCard(40), 2);
-        addAdventureCards(adventureDeck, new FoeCard(50), 2);
-        addAdventureCards(adventureDeck, new FoeCard(70), 1);
+        this.adventureDeck = new Deck();
+        adventureDeck.addCards(new FoeCard(5), 8);
+        adventureDeck.addCards(new FoeCard(10), 7);
+        adventureDeck.addCards(new FoeCard(15), 8);
+        adventureDeck.addCards(new FoeCard(20), 7);
+        adventureDeck.addCards(new FoeCard(25), 7);
+        adventureDeck.addCards(new FoeCard(30), 4);
+        adventureDeck.addCards(new FoeCard(35), 4);
+        adventureDeck.addCards(new FoeCard(40), 2);
+        adventureDeck.addCards(new FoeCard(50), 2);
+        adventureDeck.addCards(new FoeCard(70), 1);
 
-        addAdventureCards(adventureDeck, new WeaponCard("Dagger", 5), 6);
-        addAdventureCards(adventureDeck, new WeaponCard("Horse", 10), 12);
-        addAdventureCards(adventureDeck, new WeaponCard("Sword", 10), 16);
-        addAdventureCards(adventureDeck, new WeaponCard("Battle-Axe", 15), 8);
-        addAdventureCards(adventureDeck, new WeaponCard("Lance", 20), 6);
-        addAdventureCards(adventureDeck, new WeaponCard("Excalibur", 30), 2);
+        adventureDeck.addCards(new WeaponCard("Dagger", 5), 6);
+        adventureDeck.addCards(new WeaponCard("Horse", 10), 12);
+        adventureDeck.addCards(new WeaponCard("Sword", 10), 16);
+        adventureDeck.addCards(new WeaponCard("Battle-Axe", 15), 8);
+        adventureDeck.addCards(new WeaponCard("Lance", 20), 6);
+        adventureDeck.addCards(new WeaponCard("Excalibur", 30), 2);
 
-        this.eventDeck = new ArrayList<>();
-        addEventCards(eventDeck, new QuestCard(2), 3);
-        addEventCards(eventDeck, new QuestCard(3), 4);
-        addEventCards(eventDeck, new QuestCard(4), 3);
-        addEventCards(eventDeck, new QuestCard(5), 2);
+        this.eventDeck = new Deck();
+        eventDeck.addCards(new QuestCard(2), 3);
+        eventDeck.addCards(new QuestCard(3), 4);
+        eventDeck.addCards(new QuestCard(4), 3);
+        eventDeck.addCards(new QuestCard(5), 2);
 
-        addEventCards(eventDeck, new EventCard("Plague"), 1);
-        addEventCards(eventDeck, new EventCard("Queen's Favor"), 2);
-        addEventCards(eventDeck, new EventCard("Prosperity"), 2);
+        eventDeck.addCards(new EventCard("Plague"), 1);
+        eventDeck.addCards(new EventCard("Queen's Favor"), 2);
+        eventDeck.addCards(new EventCard("Prosperity"), 2);
     }
 
     public void flushTurn(){
@@ -120,11 +120,11 @@ public class Game {
         }
     }
 
-    public ArrayList<AdventureCard> getAdventureDeck(){
+    public Deck getAdventureDeck(){
         return adventureDeck;
     }
 
-    public ArrayList<EventCard> getEventDeck(){
+    public Deck getEventDeck(){
         return eventDeck;
     }
 

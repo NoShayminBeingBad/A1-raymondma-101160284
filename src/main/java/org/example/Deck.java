@@ -5,12 +5,16 @@ import org.example.Card.Card;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public abstract class Deck {
+public class Deck<T> {
 
-    ArrayList<Card> cards = new ArrayList<>();
+    ArrayList<T> cards;
+
+    public Deck(){
+        this.cards = new ArrayList<T>();
+    }
 
     //Draws top card, if deck is empty, it will return null
-    public Card draw(){
+    public T draw(){
         if (cards.isEmpty()){
             return null;
         }
@@ -19,19 +23,29 @@ public abstract class Deck {
 
     //Return the top x amount of cards
     //If the deck has less cards tha requested, it will return null
-    public Card[] draw(int amount){
+    public ArrayList<T> draw(int amount){
         if (cards.size() < amount){
             return null;
         }
-        Card[] c = new Card[amount];
+        ArrayList<T> c = new ArrayList<>();
         for (int i = 0; i < amount; i++){
-            c[i] = cards.removeFirst();
+            c.add(cards.removeFirst());
         }
         return c;
     }
 
+    public void addCards(T c, int amount){
+        for (int i = 0; i < amount; i++){
+            cards.add(c);
+        }
+    }
+
     public void shuffle(){
         Collections.shuffle(cards);
+    }
+
+    public ArrayList<T> getCards(){
+        return cards;
     }
 
 }

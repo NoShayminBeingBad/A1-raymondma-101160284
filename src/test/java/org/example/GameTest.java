@@ -25,20 +25,20 @@ class GameTest {
 
         game.setUpDecks();
 
-        ArrayList<AdventureCard> adventureDeck = game.getAdventureDeck();
+        ArrayList<Card> adventureDeck = game.getAdventureDeck().getCards();
 
         //Check Foe cards
         //TODO: Fix order :(
-        Assertions.assertEquals(countFoeCards(adventureDeck, 5), 8);
-        Assertions.assertEquals(countFoeCards(adventureDeck, 10), 7);
-        Assertions.assertEquals(countFoeCards(adventureDeck, 15), 8);
-        Assertions.assertEquals(countFoeCards(adventureDeck, 20), 7);
-        Assertions.assertEquals(countFoeCards(adventureDeck, 25), 7);
-        Assertions.assertEquals(countFoeCards(adventureDeck, 30), 4);
-        Assertions.assertEquals(countFoeCards(adventureDeck, 35), 4);
-        Assertions.assertEquals(countFoeCards(adventureDeck, 40), 2);
-        Assertions.assertEquals(countFoeCards(adventureDeck, 50), 2);
-        Assertions.assertEquals(countFoeCards(adventureDeck, 70), 1);
+        Assertions.assertEquals(countFoeCards(adventureDeck, "F5"), 8);
+        Assertions.assertEquals(countFoeCards(adventureDeck, "F10"), 7);
+        Assertions.assertEquals(countFoeCards(adventureDeck, "F15"), 8);
+        Assertions.assertEquals(countFoeCards(adventureDeck, "F20"), 7);
+        Assertions.assertEquals(countFoeCards(adventureDeck, "F25"), 7);
+        Assertions.assertEquals(countFoeCards(adventureDeck, "F30"), 4);
+        Assertions.assertEquals(countFoeCards(adventureDeck, "F35"), 4);
+        Assertions.assertEquals(countFoeCards(adventureDeck, "F40"), 2);
+        Assertions.assertEquals(countFoeCards(adventureDeck, "F50"), 2);
+        Assertions.assertEquals(countFoeCards(adventureDeck, "F70"), 1);
 
         //Check Weapon cards
         Assertions.assertEquals(countAdventureCards(adventureDeck, "Dagger"), 6);
@@ -49,7 +49,7 @@ class GameTest {
         Assertions.assertEquals(countAdventureCards(adventureDeck, "Excalibur"), 2);
 
         //Check Event cards
-        ArrayList<EventCard> eventDeck = game.getEventDeck();
+        ArrayList<Card> eventDeck = game.getEventDeck().getCards();
         Assertions.assertEquals(countEventCards(eventDeck, "Q2"), 3);
         Assertions.assertEquals(countEventCards(eventDeck, "Q3"), 4);
         Assertions.assertEquals(countEventCards(eventDeck, "Q4"), 3);
@@ -60,7 +60,7 @@ class GameTest {
         Assertions.assertEquals(countEventCards(eventDeck, "Prosperity"), 2);
     }
 
-    private int countEventCards(ArrayList<EventCard> deck, String event){
+    private int countEventCards(ArrayList<Card> deck, String event){
         int count = 0;
         for (int i = 0; i < deck.size(); i++) {
             if (event.equals(deck.get(i).toString())) {
@@ -71,7 +71,7 @@ class GameTest {
         return count;
     }
 
-    private int countAdventureCards(ArrayList<AdventureCard> deck, String title){
+    private int countAdventureCards(ArrayList<Card> deck, String title){
         int count = 0;
         for (int i = 0; i < deck.size(); i++) {
             if (deck.get(i) instanceof WeaponCard && title.equals(deck.get(i).getTitle())) {
@@ -82,10 +82,10 @@ class GameTest {
         return count;
     }
 
-    private int countFoeCards(ArrayList<AdventureCard> deck, int foe){
+    private int countFoeCards(ArrayList<Card> deck, String foe){
         int count = 0;
         for (int i = 0; i < deck.size(); i++) {
-            if (deck.get(i) instanceof FoeCard && foe == deck.get(i).getBP()) {
+            if (deck.get(i) instanceof FoeCard && deck.get(i).toString().equals(foe)) {
                 count++;
             }
         }
@@ -99,7 +99,7 @@ class GameTest {
 
         game.setUpDecks();
 
-        int adventureDeckStart = game.getAdventureDeck().size();
+        int adventureDeckStart = game.getAdventureDeck().getCards().size();
 
         game.dealHands();
 
@@ -108,7 +108,7 @@ class GameTest {
             Assertions.assertEquals(12, player.getHand().size());
         }
 
-        Assertions.assertTrue(game.getAdventureDeck().size() < adventureDeckStart);
+        Assertions.assertTrue(game.getAdventureDeck().getCards().size() < adventureDeckStart);
 
     }
 
