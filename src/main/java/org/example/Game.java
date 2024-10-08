@@ -13,6 +13,7 @@ public class Game {
     private Scanner input;
     private PrintWriter output;
 
+    private int turnCount;
     private ArrayList<Player> players;
 
     private ArrayList<AdventureCard> adventureDeck;
@@ -30,6 +31,7 @@ public class Game {
         for (int i = 0; i < playersNumber; i++){
             this.players.add(new Player(i));
         }
+        this.turnCount = 0;
     }
 
     public void setUpGame(){
@@ -79,11 +81,18 @@ public class Game {
     }
 
     public void flushTurn(){
-
+        output.println(String.format("It is now Player %d turn (press <return> to clear screen)", turnCount+1));
+        input.nextLine();
+        output.flush();
+        output.println(String.format("It is now Player %d turn", turnCount+1));
     }
 
     public void nextTurn(){
+        turnCount++;
 
+        if (turnCount > players.size()){
+            turnCount = 0;
+        }
     }
 
     public boolean outputWinner(){

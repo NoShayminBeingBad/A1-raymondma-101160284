@@ -171,7 +171,7 @@ class GameTest {
 
     @Test
     public void RESP_4_TEST_1(){
-        Scanner input = new Scanner("");
+        Scanner input = new Scanner("\n\n\n\n\n");
         StringWriter output = new StringWriter();
 
         Game game = new Game(4, input, new PrintWriter(output));
