@@ -168,4 +168,28 @@ class GameTest {
         Assertions.assertEquals("", output.toString());
 
     }
+
+    @Test
+    public void RESP_4_TEST_1(){
+        Scanner input = new Scanner("");
+        StringWriter output = new StringWriter();
+
+        Game game = new Game(4, input, new PrintWriter(output));
+        game.setUpGame();
+
+        game.flushTurn();
+        Assertions.assertTrue(output.toString().contains("It is now Player 1 turn"));
+        game.nextTurn();
+        game.flushTurn();
+        Assertions.assertTrue(output.toString().contains("It is now Player 2 turn"));
+        game.nextTurn();
+        game.flushTurn();
+        Assertions.assertTrue(output.toString().contains("It is now Player 3 turn"));
+        game.nextTurn();
+        game.flushTurn();
+        Assertions.assertTrue(output.toString().contains("It is now Player 4 turn"));
+        game.nextTurn();
+        game.flushTurn();
+        Assertions.assertTrue(output.toString().contains("It is now Player 1 turn"));
+    }
 }

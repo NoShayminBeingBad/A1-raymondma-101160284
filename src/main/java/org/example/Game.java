@@ -78,6 +78,14 @@ public class Game {
         addEventCards(eventDeck, new EventCard("Prosperity"), 2);
     }
 
+    public void flushTurn(){
+
+    }
+
+    public void nextTurn(){
+
+    }
+
     public boolean outputWinner(){
         boolean returnVal = false;
 
