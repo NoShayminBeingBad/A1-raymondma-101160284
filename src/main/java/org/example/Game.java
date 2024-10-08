@@ -43,14 +43,14 @@ public class Game {
 
     public void dealHands(){
         for (int i = 0; i < 12; i++){
-            for (int j = 0; j < players.size(); j++){
-                players.get(j).addToHand(adventureDeck.draw());
+            for (Player player : players) {
+                player.addToHand(adventureDeck.draw());
             }
         }
     }
 
     public void setUpDecks(){
-        this.adventureDeck = new Deck();
+        this.adventureDeck = new Deck<>();
         adventureDeck.addCards(new FoeCard(5), 8);
         adventureDeck.addCards(new FoeCard(10), 7);
         adventureDeck.addCards(new FoeCard(15), 8);
@@ -69,7 +69,7 @@ public class Game {
         adventureDeck.addCards(new WeaponCard("Lance", 20), 6);
         adventureDeck.addCards(new WeaponCard("Excalibur", 30), 2);
 
-        this.eventDeck = new Deck();
+        this.eventDeck = new Deck<>();
         eventDeck.addCards(new QuestCard(2), 3);
         eventDeck.addCards(new QuestCard(3), 4);
         eventDeck.addCards(new QuestCard(4), 3);
@@ -120,11 +120,11 @@ public class Game {
         }
     }
 
-    public Deck getAdventureDeck(){
+    public Deck<AdventureCard> getAdventureDeck(){
         return adventureDeck;
     }
 
-    public Deck getEventDeck(){
+    public Deck<EventCard> getEventDeck(){
         return eventDeck;
     }
 
