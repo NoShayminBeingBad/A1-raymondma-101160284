@@ -37,7 +37,7 @@ class PlayerTest {
 
         player.printHand(new PrintWriter(output));
 
-        Assertions.assertTrue(output.toString().contains("F5 F5 F10 F10 F15 F20 F70 D5 S10 S10 H10 E30"));
+        Assertions.assertTrue(output.toString().contains("Player 1's Hand: F5 F5 F10 F10 F15 F20 F70 D5 S10 S10 H10 E30"));
 
     }
 

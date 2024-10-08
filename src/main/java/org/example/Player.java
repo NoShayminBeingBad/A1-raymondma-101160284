@@ -4,6 +4,8 @@ import org.example.Card.AdventureCard;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class Player {
 
@@ -36,7 +38,14 @@ public class Player {
     }
 
     public void printHand(PrintWriter output){
+        Collections.sort(hand);
+        String h = String.format("Player %d's Hand: ", number + 1);
 
+        for (AdventureCard c : hand){
+            h = h.concat(String.format("%s ", c.toString()));
+        }
+
+        output.println(h);
     }
 
 }
