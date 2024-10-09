@@ -20,13 +20,15 @@ class EventCardTest {
 
         Game game = new Game(4, input, new PrintWriter(output));
 
+        game.setUpGame();
+
         int shieldsBefore = game.getPlayer(game.getTurnCount()).getShieldNum();
 
         game.getEventDeck().getCards().set(0, new PlagueCard());
         game.drawEventCard();
         game.playEventCard();
 
-        Assertions.assertEquals(shieldsBefore - 1, game.getPlayer(game.getTurnCount()).getShieldNum());
+        Assertions.assertEquals(shieldsBefore - 2, game.getPlayer(game.getTurnCount()).getShieldNum());
     }
 
     @Test
@@ -36,6 +38,7 @@ class EventCardTest {
         StringWriter output = new StringWriter();
 
         Game game = new Game(4, input, new PrintWriter(output));
+        game.setUpGame();
 
         game.getPlayer(game.getTurnCount()).getHand().removeFirst();
         game.getPlayer(game.getTurnCount()).getHand().removeFirst();
@@ -47,7 +50,7 @@ class EventCardTest {
         game.drawEventCard();
         game.playEventCard();
 
-        Assertions.assertEquals(cardsBefore + 2, game.getPlayer(game.getTurnCount()).getShieldNum());
+        Assertions.assertEquals(cardsBefore + 2, game.getPlayer(game.getTurnCount()).getHand().size());
     }
 
     @Test
@@ -57,6 +60,7 @@ class EventCardTest {
         StringWriter output = new StringWriter();
 
         Game game = new Game(4, input, new PrintWriter(output));
+        game.setUpGame();
 
         game.getPlayer(0).discardCards(3);
         game.getPlayer(1).discardCards(2);
@@ -73,7 +77,7 @@ class EventCardTest {
         game.playEventCard();
 
         for (int i = 0; i < cardsBefore.length; i++) {
-            Assertions.assertEquals(cardsBefore[i] + 2, game.getPlayer(game.getTurnCount()).getShieldNum());
+            Assertions.assertEquals(cardsBefore[i] + 2, game.getPlayer(i).getHand().size());
         }
     }
 
