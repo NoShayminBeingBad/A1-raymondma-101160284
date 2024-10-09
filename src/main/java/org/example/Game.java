@@ -95,6 +95,14 @@ public class Game {
         }
     }
 
+    public void drawEventCard() {
+
+    }
+
+    public void playEventCard(){
+
+    }
+
     public boolean outputWinner(){
         boolean returnVal = false;
 
@@ -132,4 +140,7 @@ public class Game {
         return players.get(p);
     }
 
+    public int getTurnCount(){
+        return turnCount;
+    }
 }

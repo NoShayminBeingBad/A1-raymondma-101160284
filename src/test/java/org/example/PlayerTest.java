@@ -25,14 +25,14 @@ class PlayerTest {
         player.addToHand(new FoeCard(5));
         player.addToHand(new FoeCard(70));
         player.addToHand(new FoeCard(10));
+        player.addToHand(new WeaponCard("Dagger", 5));
+        player.addToHand(new WeaponCard("Excalibur", 30));
         player.addToHand(new FoeCard(10));
         player.addToHand(new FoeCard(20));
         player.addToHand(new FoeCard(5));
         player.addToHand(new FoeCard(15));
         player.addToHand(new WeaponCard("Sword", 10));
         player.addToHand(new WeaponCard("Horse", 10));
-        player.addToHand(new WeaponCard("Dagger", 5));
-        player.addToHand(new WeaponCard("Excalibur", 30));
         player.addToHand(new WeaponCard("Sword", 10));
 
         player.printHand(new PrintWriter(output));

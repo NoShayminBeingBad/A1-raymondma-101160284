@@ -25,6 +25,13 @@ public class Player {
         hand.add(card);
     }
 
+    //For testing purposes
+    public void discardCards(int amount){
+        for (int i = 0; i < amount; i++){
+            hand.removeFirst();
+        }
+    }
+
     public ArrayList<AdventureCard> getHand(){
         return hand;
     }
