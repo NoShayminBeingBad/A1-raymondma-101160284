@@ -1,5 +1,7 @@
 package org.example.Card;
 
+import org.example.Game;
+
 public class QuestCard extends EventCard{
 
     private int stages;
@@ -17,4 +19,8 @@ public class QuestCard extends EventCard{
         return "Q".concat(Integer.toString(stages));
     }
 
+    @Override
+    public void Event(Game game) {
+
+    }
 }

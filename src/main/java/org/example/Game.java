@@ -19,6 +19,8 @@ public class Game {
     private Deck<AdventureCard> adventureDeck;
     private Deck<EventCard> eventDeck;
 
+    private EventCard eventCard;
+
     public Game(int playersNumber) {
        this(playersNumber, new Scanner(System.in), new PrintWriter(System.out));
     }
@@ -49,6 +51,10 @@ public class Game {
         }
     }
 
+    public void dealCardToPlayer(int player){
+        players.get(player).addToHand(adventureDeck.draw());
+    }
+
     public void setUpDecks(){
         this.adventureDeck = new Deck<>();
         adventureDeck.addCards(new FoeCard(5), 8);
@@ -75,9 +81,9 @@ public class Game {
         eventDeck.addCards(new QuestCard(4), 3);
         eventDeck.addCards(new QuestCard(5), 2);
 
-        eventDeck.addCards(new EventCard("Plague"), 1);
-        eventDeck.addCards(new EventCard("Queen's Favor"), 2);
-        eventDeck.addCards(new EventCard("Prosperity"), 2);
+        eventDeck.addCards(new PlagueCard(), 1);
+        eventDeck.addCards(new QueensFavorCard(), 2);
+        eventDeck.addCards(new ProsperityCard(), 2);
     }
 
     public void flushTurn(){
@@ -96,11 +102,11 @@ public class Game {
     }
 
     public void drawEventCard() {
-
+        eventCard = eventDeck.draw();
     }
 
     public void playEventCard(){
-
+        eventCard.Event(this);
     }
 
     public boolean outputWinner(){
@@ -114,18 +120,6 @@ public class Game {
         }
 
         return returnVal;
-    }
-
-    public void addAdventureCards(ArrayList<AdventureCard> deck, AdventureCard card, int amount){
-        for (int i = 0; i < amount; i++){
-            deck.add(card);
-        }
-    }
-
-    public void addEventCards(ArrayList<EventCard> deck, EventCard card, int amount){
-        for (int i = 0; i < amount; i++){
-            deck.add(card);
-        }
     }
 
     public Deck<AdventureCard> getAdventureDeck(){
@@ -142,5 +136,9 @@ public class Game {
 
     public int getTurnCount(){
         return turnCount;
+    }
+
+    public int playerAmount(){
+        return players.size();
     }
 }
