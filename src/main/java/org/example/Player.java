@@ -34,7 +34,7 @@ public class Player {
     }
 
     public void discardCard(int index){
-        
+        hand.remove(index);
     }
 
     public ArrayList<AdventureCard> getHand(){
@@ -50,10 +50,22 @@ public class Player {
     }
 
     public boolean overLimit(){
+        return hand.size() > 12;
     }
 
     public void trimHand(Scanner input, PrintWriter output){
-
+        if (overLimit()){
+            output.println(String.format("Player %d has more than 12 cards. Please discard %d cards.", number + 1, hand.size()-12));
+            int handSize = hand.size();
+            for (int i = 0; i < handSize-12; i++){
+                printHand(output);
+                output.print("Please enter the position of the card you want to discard: ");
+                int index = input.nextInt();
+                output.println("");
+                discardCard(index);
+            }
+            printHand(output);
+        }
     }
 
     public void printHand(PrintWriter output){
