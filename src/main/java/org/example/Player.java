@@ -6,6 +6,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Scanner;
 
 public class Player {
 
@@ -32,6 +33,10 @@ public class Player {
         }
     }
 
+    public void discardCard(int index){
+        
+    }
+
     public ArrayList<AdventureCard> getHand(){
         return hand;
     }
@@ -42,6 +47,13 @@ public class Player {
 
     public void giveShield(int x){
         shieldNum += x;
+    }
+
+    public boolean overLimit(){
+    }
+
+    public void trimHand(Scanner input, PrintWriter output){
+
     }
 
     public void printHand(PrintWriter output){
