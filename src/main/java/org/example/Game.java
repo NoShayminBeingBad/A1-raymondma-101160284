@@ -86,17 +86,23 @@ public class Game {
         eventDeck.addCards(new ProsperityCard(), 2);
     }
 
+    public void flushScreen(){
+        output.print("\n\n\n\n\n\n\n\n\n\n");
+        output.flush();
+    }
+
     public void flushTurn(){
+        nextTurn();
         output.println(String.format("It is now Player %d turn (press <return> to clear screen)", turnCount+1));
         input.nextLine();
-        output.flush();
+        flushScreen();
         output.println(String.format("It is now Player %d turn", turnCount+1));
     }
 
     public void nextTurn(){
         turnCount++;
 
-        if (turnCount > players.size()){
+        if (turnCount >= players.size()){
             turnCount = 0;
         }
     }

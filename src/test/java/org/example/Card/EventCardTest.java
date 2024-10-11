@@ -128,7 +128,7 @@ class EventCardTest {
         Game game = new Game(4, input, new PrintWriter(output));
         game.setUpGame();
 
-        //remove cards from player 2 and 4
+        //remove cards from player 1, 2 and 4
         game.getPlayer(0).discardCard(1);
         game.getPlayer(1).discardCards(2);
         game.getPlayer(3).discardCards(12);

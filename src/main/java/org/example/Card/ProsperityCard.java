@@ -20,7 +20,7 @@ public class ProsperityCard extends EventCard{
             game.getPlayer(i).trimHand(game.getInput(), game.getOutput());
             game.getOutput().println("It is now the next player's turn (press <return> to clear screen)");
             game.getInput().nextLine();
-            game.getOutput().flush();
+            game.flushScreen();
         }
     }
 

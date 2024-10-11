@@ -178,23 +178,21 @@ class GameTest {
         Game game = new Game(4, input, new PrintWriter(output));
         game.setUpGame();
 
+        //Check the last line and that the "\n"s happen so the screen was "flushed"
         game.flushTurn();
-        Assertions.assertTrue(output.toString().contains("It is now Player 1 turn"));
-        game.getOutput().flush();
-        game.nextTurn();
+        Assertions.assertTrue(output.toString().substring(output.toString().length()-30).contains("\n\n\nIt is now Player 2 turn"));
         game.flushTurn();
-        Assertions.assertTrue(output.toString().contains("It is now Player 2 turn"));
-        game.getOutput().flush();
-        game.nextTurn();
+        Assertions.assertTrue(output.toString().substring(output.toString().length()-28).contains("\n\n\nIt is now Player 3 turn"));
         game.flushTurn();
-        Assertions.assertTrue(output.toString().contains("It is now Player 3 turn"));
-        game.getOutput().flush();
-        game.nextTurn();
+        Assertions.assertTrue(output.toString().substring(output.toString().length()-28).contains("\n\n\nIt is now Player 4 turn"));
         game.flushTurn();
-        Assertions.assertTrue(output.toString().contains("It is now Player 4 turn"));
-        game.getOutput().flush();
-        game.nextTurn();
+        Assertions.assertTrue(output.toString().substring(output.toString().length()-28).contains("\n\n\nIt is now Player 1 turn"));
         game.flushTurn();
-        Assertions.assertTrue(output.toString().contains("It is now Player 1 turn"));
+        Assertions.assertTrue(output.toString().substring(output.toString().length()-28).contains("\n\n\nIt is now Player 2 turn"));
+    }
+
+    @Test
+    public void RESP_8_TEST_1(){
+
     }
 }
