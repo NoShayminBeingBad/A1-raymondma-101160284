@@ -141,4 +141,12 @@ public class Game {
     public int playerAmount(){
         return players.size();
     }
+
+    public Scanner getInput() {
+        return input;
+    }
+
+    public PrintWriter getOutput() {
+        return output;
+    }
 }

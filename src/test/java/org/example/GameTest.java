@@ -180,15 +180,19 @@ class GameTest {
 
         game.flushTurn();
         Assertions.assertTrue(output.toString().contains("It is now Player 1 turn"));
+        game.getOutput().flush();
         game.nextTurn();
         game.flushTurn();
         Assertions.assertTrue(output.toString().contains("It is now Player 2 turn"));
+        game.getOutput().flush();
         game.nextTurn();
         game.flushTurn();
         Assertions.assertTrue(output.toString().contains("It is now Player 3 turn"));
+        game.getOutput().flush();
         game.nextTurn();
         game.flushTurn();
         Assertions.assertTrue(output.toString().contains("It is now Player 4 turn"));
+        game.getOutput().flush();
         game.nextTurn();
         game.flushTurn();
         Assertions.assertTrue(output.toString().contains("It is now Player 1 turn"));
