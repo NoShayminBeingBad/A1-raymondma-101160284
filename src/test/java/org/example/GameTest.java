@@ -21,7 +21,7 @@ class GameTest {
     static final Logger LOGGER = LoggerFactory.getLogger(Game.class);
 
     @Test
-    public void RESP_1_TEST_1(){
+    public void RESP_1_TEST_1() {
         Game game = new Game(0);
 
         game.setUpDecks();
@@ -61,7 +61,7 @@ class GameTest {
         Assertions.assertEquals(countEventCards(eventDeck, "Prosperity"), 2);
     }
 
-    private int countEventCards(ArrayList<EventCard> deck, String event){
+    private int countEventCards(ArrayList<EventCard> deck, String event) {
         int count = 0;
         for (int i = 0; i < deck.size(); i++) {
             if (event.equals(deck.get(i).toString())) {
@@ -72,7 +72,7 @@ class GameTest {
         return count;
     }
 
-    private int countAdventureCards(ArrayList<AdventureCard> deck, String title){
+    private int countAdventureCards(ArrayList<AdventureCard> deck, String title) {
         int count = 0;
         for (int i = 0; i < deck.size(); i++) {
             if (deck.get(i) instanceof WeaponCard && title.equals(deck.get(i).getTitle())) {
@@ -83,7 +83,7 @@ class GameTest {
         return count;
     }
 
-    private int countFoeCards(ArrayList<AdventureCard> deck, String foe){
+    private int countFoeCards(ArrayList<AdventureCard> deck, String foe) {
         int count = 0;
         for (int i = 0; i < deck.size(); i++) {
             if (deck.get(i) instanceof FoeCard && deck.get(i).toString().equals(foe)) {
@@ -95,7 +95,7 @@ class GameTest {
     }
 
     @Test
-    public void RESP_2_TEST_1(){
+    public void RESP_2_TEST_1() {
         Game game = new Game(4);
 
         game.setUpDecks();
@@ -104,7 +104,7 @@ class GameTest {
 
         game.dealHands();
 
-        for (int i = 0; i < 4; i++){
+        for (int i = 0; i < 4; i++) {
             Player player = game.getPlayer(i);
             Assertions.assertEquals(12, player.getHand().size());
         }
@@ -115,7 +115,7 @@ class GameTest {
 
     @Test
     @DisplayName("Test Win condition: 1 winner")
-    public void RESP_3_TEST_1(){
+    public void RESP_3_TEST_1() {
 
         Scanner input = new Scanner("");
         StringWriter output = new StringWriter();
@@ -134,7 +134,7 @@ class GameTest {
 
     @Test
     @DisplayName("Test Win condition: Multiple winner")
-    public void RESP_3_TEST_2(){
+    public void RESP_3_TEST_2() {
 
         Scanner input = new Scanner("");
         StringWriter output = new StringWriter();
@@ -153,7 +153,7 @@ class GameTest {
 
     @Test
     @DisplayName("Test Win condition: No winner")
-    public void RESP_3_TEST_3(){
+    public void RESP_3_TEST_3() {
 
         Scanner input = new Scanner("");
         StringWriter output = new StringWriter();
@@ -171,7 +171,7 @@ class GameTest {
     }
 
     @Test
-    public void RESP_4_TEST_1(){
+    public void RESP_4_TEST_1() {
         Scanner input = new Scanner("\n\n\n\n\n");
         StringWriter output = new StringWriter();
 
@@ -180,19 +180,14 @@ class GameTest {
 
         //Check the last line and that the "\n"s happen so the screen was "flushed"
         game.flushTurn();
-        Assertions.assertTrue(output.toString().substring(output.toString().length()-30).contains("\n\n\nIt is now Player 2 turn"));
+        Assertions.assertTrue(output.toString().substring(output.toString().length() - 30).contains("\n\n\nIt is now Player 2 turn"));
         game.flushTurn();
-        Assertions.assertTrue(output.toString().substring(output.toString().length()-28).contains("\n\n\nIt is now Player 3 turn"));
+        Assertions.assertTrue(output.toString().substring(output.toString().length() - 28).contains("\n\n\nIt is now Player 3 turn"));
         game.flushTurn();
-        Assertions.assertTrue(output.toString().substring(output.toString().length()-28).contains("\n\n\nIt is now Player 4 turn"));
+        Assertions.assertTrue(output.toString().substring(output.toString().length() - 28).contains("\n\n\nIt is now Player 4 turn"));
         game.flushTurn();
-        Assertions.assertTrue(output.toString().substring(output.toString().length()-28).contains("\n\n\nIt is now Player 1 turn"));
+        Assertions.assertTrue(output.toString().substring(output.toString().length() - 28).contains("\n\n\nIt is now Player 1 turn"));
         game.flushTurn();
-        Assertions.assertTrue(output.toString().substring(output.toString().length()-28).contains("\n\n\nIt is now Player 2 turn"));
-    }
-
-    @Test
-    public void RESP_8_TEST_1(){
-
+        Assertions.assertTrue(output.toString().substring(output.toString().length() - 28).contains("\n\n\nIt is now Player 2 turn"));
     }
 }
