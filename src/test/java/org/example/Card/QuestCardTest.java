@@ -100,7 +100,7 @@ class QuestCardTest {
     @DisplayName("Player sets up a quest for 2 stages, checks for errors")
     public void RESP_9_TEST_3(){
         //"Player 1's Hand: F5 F5 F10 F10 F15 F20 F70 D5 S10 S10 H10 E30"
-        String input = "7\n0\n6\nquit\n2\n0\ntest\n7\nQuit\n\n";
+        String input = "quit\n7\n5\n6\nquit\n2\n0\ntest\nquit\n8\nQuit\n\n";
         StringWriter output = new StringWriter();
 
         Player player = new Player(0);
@@ -123,9 +123,11 @@ class QuestCardTest {
 
         qc.setStages(new Scanner(input), new PrintWriter(output));
 
-        Assertions.assertEquals("Stage 1: F5 D5 ", qc.getStage(0));
-        Assertions.assertEquals("Stage 2: F10 H10 ", qc.getStage(1));
+        Assertions.assertEquals("Stage 1: F20 D5 ", qc.getStage(0));
+        Assertions.assertEquals("Stage 2: F10 E30 ", qc.getStage(1));
 
+        Assertions.assertTrue(output.toString().contains("A stage cannot be empty"));
+        Assertions.assertTrue(output.toString().contains("Insufficient value for this stage"));
         Assertions.assertTrue(output.toString().contains("Card selected is not an Foe Card"));
         Assertions.assertTrue(output.toString().contains("Card selected is not an Weapon Card"));
         Assertions.assertTrue(output.toString().contains("That is not a valid input. Please enter an index or 'Quit'"));
