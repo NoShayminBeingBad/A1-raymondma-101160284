@@ -46,7 +46,7 @@ public class Player {
     }
 
     public void giveShield(int x){
-        shieldNum += x;
+        shieldNum = Math.max(0, shieldNum + x);
     }
 
     public boolean overLimit(){

@@ -22,6 +22,7 @@ class EventCardTest {
 
         game.setUpGame();
 
+        game.getPlayer(game.getTurnCount()).giveShield(3);
         int shieldsBefore = game.getPlayer(game.getTurnCount()).getShieldNum();
 
         game.getEventDeck().getCards().set(0, new PlagueCard());
@@ -145,6 +146,25 @@ class EventCardTest {
         for (int i = 0; i < cardsBefore.length; i++) {
             Assertions.assertEquals(Math.min(cardsBefore[i] + 2, 12), game.getPlayer(i).getHand().size());
         }
+    }
+
+    @Test
+    @DisplayName("Player draws Plague card and has less than 2 shields")
+    public void RESP_6_TEST_7(){
+        Scanner input = new Scanner("");
+        StringWriter output = new StringWriter();
+
+        Game game = new Game(4, input, new PrintWriter(output));
+
+        game.setUpGame();
+
+        game.getPlayer(game.getTurnCount()).giveShield(1);
+
+        game.getEventDeck().getCards().set(0, new PlagueCard());
+        game.drawEventCard();
+        game.playEventCard();
+
+        Assertions.assertEquals(0, game.getPlayer(game.getTurnCount()).getShieldNum());
     }
 
 }
