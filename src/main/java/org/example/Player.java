@@ -67,7 +67,7 @@ public class Player {
             int handSize = hand.size();
             for (int i = 0; i < handSize-12; i++){
                 printHand(output);
-                output.print(String.format("Please enter the position of the card you want to discard (0 - %d): ", hand.size()-1));
+                output.print(String.format("Please enter the position of the card you want to discard (0 - %d): ", hand.size()-1)); output.flush();
                 int index = input.nextInt();
                 output.println("");
                 discardCard(index);
@@ -84,7 +84,7 @@ public class Player {
             h = h.concat(String.format("%s ", c.toString()));
         }
 
-        output.println(h);
+        output.println(h); output.flush();
     }
 
 }

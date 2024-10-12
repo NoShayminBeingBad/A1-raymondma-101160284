@@ -93,10 +93,10 @@ public class Game {
 
     public void flushTurn(){
         nextTurn();
-        output.println(String.format("It is now Player %d turn (press <return> to clear screen)", turnCount+1));
+        output.println(String.format("It is now Player %d turn (press <return> to clear screen)", turnCount+1)); output.flush();
         input.nextLine();
         flushScreen();
-        output.println(String.format("It is now Player %d turn", turnCount+1));
+        output.println(String.format("It is now Player %d turn", turnCount+1)); output.flush();
     }
 
     public void nextTurn(){
@@ -124,6 +124,8 @@ public class Game {
                 returnVal = true;
             }
         }
+
+        output.flush();
 
         return returnVal;
     }

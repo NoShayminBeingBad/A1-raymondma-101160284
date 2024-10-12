@@ -41,7 +41,7 @@ public class QuestCard extends EventCard{
 
         for (int i = 0; i < game.playerAmount(); i++){
             game.getPlayer(sponsorCheck).printHand(output);
-            output.print(String.format("Player %d, sponsor this quest? (y/n) ", sponsorCheck + 1));
+            output.print(String.format("Player %d, sponsor this quest? (y/n) ", sponsorCheck + 1)); output.flush();
             String decision = input.nextLine();
             output.println("");
             if (decision.charAt(0) == 'y'){
@@ -54,7 +54,7 @@ public class QuestCard extends EventCard{
         }
 
         if (sponsor == null){
-            output.println("No sponsor, quest has been canceled");
+            output.println("No sponsor, quest has been canceled"); output.flush();
             return;
         }
 
