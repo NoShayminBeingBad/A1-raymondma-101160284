@@ -33,12 +33,20 @@ public class Player {
         }
     }
 
-    public void discardCard(int index){
-        hand.remove(index);
+    public AdventureCard discardCard(int index){
+        return hand.remove(index);
+    }
+
+    public AdventureCard getCard(int index){
+        return hand.get(index);
     }
 
     public ArrayList<AdventureCard> getHand(){
         return hand;
+    }
+
+    public int getNumber(){
+        return number;
     }
 
     public int getShieldNum(){
