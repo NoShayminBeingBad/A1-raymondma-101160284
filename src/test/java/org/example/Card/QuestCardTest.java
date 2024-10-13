@@ -237,7 +237,8 @@ class QuestCardTest {
     @DisplayName("All players decline a quest after player 4 sets up a quest")
     public void RESP_11_TEST_2(){
         String input = "n\nn\nn\ny\n0\n6\nquit\n2\n7\nQuit\n\n" + // sponsor sets quest
-                "\nn\nn\nn\n";
+                "\nn\nn\nn\n" +
+                "0\n0\n";
         StringWriter output = new StringWriter();
 
         Game game = new Game(4, new Scanner(input), new PrintWriter(output));

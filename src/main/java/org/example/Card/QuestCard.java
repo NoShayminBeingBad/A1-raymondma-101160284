@@ -53,17 +53,20 @@ public class QuestCard extends EventCard{
         ArrayList<Player> eligible = new ArrayList<>();
         int playerTurn = nextPlayer(sponsor.getNumber());
 
-        output.println("Eligible Players: ");
         for (int i = 0; i < game.getAllPlayers().size() - 1; i++){
             eligible.add(game.getPlayer(playerTurn));
-            output.println(String.format("Player %d", playerTurn));
             playerTurn = nextPlayer(playerTurn);
         }
 
-        input.nextLine();
-
 
         for (int i = 0; i < stages; i++){
+            output.println("Eligible Players: ");
+            for (Player p : eligible){
+                output.println(String.format("Player %d", p.getNumber()+1));
+            }
+
+            input.nextLine();
+
             ArrayList<Player> newEligible = new ArrayList<>();
             for (Player player : eligible){
                 game.flushScreen();
