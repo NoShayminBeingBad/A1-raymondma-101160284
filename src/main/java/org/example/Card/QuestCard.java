@@ -14,10 +14,13 @@ public class QuestCard extends EventCard{
     private Player sponsor;
     private ArrayList<AdventureCard>[] cards;
 
+    private ArrayList<AdventureCard>[] attackers;
+
     public QuestCard(int stages) {
         super("Quest");
         this.stages = stages;
-        cards = new ArrayList[stages];
+        this.cards = new ArrayList[stages];
+        this.attackers = new ArrayList[4];
         this.sponsor = null;
     }
 
@@ -103,8 +106,13 @@ public class QuestCard extends EventCard{
 
                 try {
                     in = Integer.parseInt(weapon);
-                    if (sponsor.getCard(in) instanceof WeaponCard){
-                        cards[i].add(sponsor.discardCard(in));
+                    AdventureCard ac = sponsor.getCard(in);
+                    if (ac instanceof WeaponCard){
+                        if(!repeatWeapon(cards[i], ac)){
+                            cards[i].add(sponsor.discardCard(in));
+                        }else {
+                            output.println("That Weapon is already used");
+                        }
                     }else {
                         output.println("Card selected is not an Weapon Card");
                     }
@@ -128,8 +136,54 @@ public class QuestCard extends EventCard{
     }
 
     public void setAttack(Scanner input, PrintWriter output, Player player){
-        output.println(getAttack(playerNum)); output.flush();
+        String weapon = "";
+        int in = -1;
+        int playerNum = player.getNumber();
+        attackers[playerNum] = new ArrayList<>();
 
+        output.println(String.format("Player %d, please set up your forces for the quest", playerNum + 1));
+
+        while(true) {
+            output.println("Please select a Weapon to boost your forces (enter 'Quit' to exit):");
+            player.printHand(output);
+            output.flush();
+            weapon = input.nextLine();
+
+            try {
+                in = Integer.parseInt(weapon);
+                AdventureCard ac = player.getCard(in);
+                if (ac instanceof WeaponCard) {
+                    if (!repeatWeapon(attackers[playerNum], ac)) {
+                        attackers[playerNum].add(player.discardCard(in));
+                    }else {
+                        output.println("That Weapon is already used");
+                    }
+                } else {
+                    output.println("Card selected is not an Weapon Card");
+                }
+            } catch (NumberFormatException e) {
+                if (weapon.equalsIgnoreCase("quit")) {
+                    if (attackers[playerNum].isEmpty()) {
+                        output.println("Your attack cannot be empty");
+                        continue;
+                    }
+                    break;
+                } else {
+                    output.println("That is not a valid input. Please enter an index or 'Quit'");
+                }
+            }
+            output.println(getAttack(playerNum));
+        }
+        output.println(getAttack(playerNum)); output.flush();
+    }
+
+    public boolean repeatWeapon(ArrayList<AdventureCard> set, AdventureCard card){
+
+        for (AdventureCard ac : set){
+            if (ac.toString().equals(card.toString())){
+                return true;
+            }
+        }
 
         return false;
     }
@@ -150,6 +204,7 @@ public class QuestCard extends EventCard{
 
     public String getStage(int stageNum){
         String s = String.format("Stage %d: ", stageNum + 1);
+        Collections.sort(cards[stageNum]);
 
         for (AdventureCard c : cards[stageNum]){
             s = s.concat(String.format("%s ", c.toString()));
@@ -160,10 +215,22 @@ public class QuestCard extends EventCard{
 
     public int getAttackValue(int player){
         int v = 0;
+
+        for (int i = 0; i < attackers[player].size(); i++){
+            v += attackers[player].get(i).getBP();
+        }
+
         return v;
     }
+
     public String getAttack(int player){
         String s = String.format("Attack from Player %d: ", player + 1);
+        Collections.sort(attackers[player]);
+
+        for (AdventureCard c : attackers[player]){
+            s = s.concat(String.format("%s ", c.toString()));
+        }
+
         return s;
     }
 

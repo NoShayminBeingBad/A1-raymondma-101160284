@@ -92,7 +92,7 @@ class QuestCardTest {
 
         Assertions.assertEquals("Stage 1: F5 D5 ", qc.getStage(0));
         Assertions.assertEquals("Stage 2: F10 H10 ", qc.getStage(1));
-        Assertions.assertEquals("Stage 3: F15 S10 S10 ", qc.getStage(2));
+        Assertions.assertEquals("Stage 3: F15 S10 ", qc.getStage(2));
         Assertions.assertEquals("Stage 4: F70 ", qc.getStage(3));
     }
 
