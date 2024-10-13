@@ -148,6 +148,7 @@ public class QuestCard extends EventCard{
             return;
         }else {
             output.println(String.format("Congrats for winning the quest!\nYou will receive %d shields", stages));
+            playersWin(eligible);
             game.printShields();
         }
 
@@ -185,6 +186,12 @@ public class QuestCard extends EventCard{
         game.dealCardsToPlayer(sponsor.getNumber(), sum);
 
         sponsor.trimHand(game.getInput(), game.getOutput());
+    }
+
+    public void playersWin(ArrayList<Player> players){
+        for (Player p : players){
+            p.giveShield(stages);
+        }
     }
 
     public void setStages(Scanner input, PrintWriter output) {
