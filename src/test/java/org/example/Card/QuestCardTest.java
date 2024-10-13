@@ -199,4 +199,73 @@ class QuestCardTest {
         Assertions.assertTrue(output.toString().contains("That is not a valid input. Please enter an index or 'Quit'"));
     }
 
+    @Test
+    @DisplayName("All players decline a quest after sponsor sets up a quest")
+    public void RESP_11_TEST_1(){
+        String input = "y\n0\n6\nquit\n2\n7\nQuit\n\n" + // sponsor sets quest
+                "n\nn\nn\n";
+        StringWriter output = new StringWriter();
+
+        Game game = new Game(4, new Scanner(input), new PrintWriter(output));
+
+        game.setUpGame();
+
+        Player player = game.getPlayer(0);
+        player.discardCards(12);
+
+        player.addToHand(new FoeCard(5));
+        player.addToHand(new FoeCard(70));
+        player.addToHand(new FoeCard(10));
+        player.addToHand(new WeaponCard("Dagger", 5));
+        player.addToHand(new WeaponCard("Excalibur", 30));
+        player.addToHand(new FoeCard(10));
+        player.addToHand(new FoeCard(20));
+        player.addToHand(new FoeCard(5));
+        player.addToHand(new FoeCard(15));
+        player.addToHand(new WeaponCard("Sword", 10));
+        player.addToHand(new WeaponCard("Horse", 10));
+        player.addToHand(new WeaponCard("Sword", 10));
+
+        game.getEventDeck().getCards().set(0, new QuestCard(2));
+        game.drawEventCard();
+        game.playEventCard();
+
+        Assertions.assertTrue(output.toString().contains("No eligible players can take this quest"));
+    }
+
+    @Test
+    @DisplayName("All players decline a quest after player 4 sets up a quest")
+    public void RESP_11_TEST_2(){
+        String input = "n\nn\nn\ny\n0\n6\nquit\n2\n7\nQuit\n\n" + // sponsor sets quest
+                "n\nn\nn\n";
+        StringWriter output = new StringWriter();
+
+        Game game = new Game(4, new Scanner(input), new PrintWriter(output));
+
+        game.setUpGame();
+
+        Player player = game.getPlayer(3);
+        player.discardCards(12);
+
+        player.addToHand(new FoeCard(5));
+        player.addToHand(new FoeCard(70));
+        player.addToHand(new FoeCard(10));
+        player.addToHand(new WeaponCard("Dagger", 5));
+        player.addToHand(new WeaponCard("Excalibur", 30));
+        player.addToHand(new FoeCard(10));
+        player.addToHand(new FoeCard(20));
+        player.addToHand(new FoeCard(5));
+        player.addToHand(new FoeCard(15));
+        player.addToHand(new WeaponCard("Sword", 10));
+        player.addToHand(new WeaponCard("Horse", 10));
+        player.addToHand(new WeaponCard("Sword", 10));
+
+        game.getEventDeck().getCards().set(0, new QuestCard(2));
+        game.drawEventCard();
+        game.playEventCard();
+
+        Assertions.assertTrue(output.toString().contains("No eligible players can take this quest"));
+        System.out.println(output.toString());
+    }
+
 }
