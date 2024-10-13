@@ -21,6 +21,7 @@ class GameTest {
     static final Logger LOGGER = LoggerFactory.getLogger(Game.class);
 
     @Test
+    @DisplayName("Populate deck with the proper amount of cards")
     public void RESP_1_TEST_1() {
         Game game = new Game(0);
 
@@ -95,6 +96,7 @@ class GameTest {
     }
 
     @Test
+    @DisplayName("Deal the correct amount of cards to each player")
     public void RESP_2_TEST_1() {
         Game game = new Game(4);
 
@@ -171,6 +173,7 @@ class GameTest {
     }
 
     @Test
+    @DisplayName("Turn progresses properly")
     public void RESP_4_TEST_1() {
         Scanner input = new Scanner("\n\n\n\n\n");
         StringWriter output = new StringWriter();

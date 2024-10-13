@@ -16,6 +16,7 @@ public class PlagueCard extends EventCard {
         game.getOutput().println(String.format("The Plague Card has been drawn! Player %d loses 2 shields!", game.getTurnCount()));
         Player player = game.getPlayer(game.getTurnCount());
         player.giveShield(-2);
+        game.printShields();
         game.getOutput().flush();
     }
 }
