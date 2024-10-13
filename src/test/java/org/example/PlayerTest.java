@@ -69,7 +69,7 @@ class PlayerTest {
     }
 
     @Test
-    @DisplayName("Player has 14 cards and needs to discard 1")
+    @DisplayName("Player has 14 cards and needs to discard 2")
     public void RESP_7_TEST2(){
         String input = "3\n10\n";
         StringWriter output = new StringWriter();
@@ -93,7 +93,7 @@ class PlayerTest {
 
         player.trimHand(new Scanner(input), new PrintWriter(output));
 
-        Assertions.assertTrue(output.toString().contains("Player 1's Hand: F5 F5 F10 F15 F20 F70 D5 S10 S10 S10 F20 E30"));
+        Assertions.assertTrue(output.toString().contains("Player 1's Hand: F5 F5 F10 F15 F20 F20 F70 D5 S10 S10 H10 E30"));
     }
 
 }

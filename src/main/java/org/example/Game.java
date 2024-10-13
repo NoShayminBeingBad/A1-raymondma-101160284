@@ -111,7 +111,7 @@ public class Game {
     }
 
     public void flushScreen(){
-        output.print("\n\n\n\n\n\n\n\n\n\n");
+        output.print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
         output.flush();
     }
 

@@ -37,7 +37,7 @@ public class QuestCard extends EventCard{
         Scanner input = game.getInput();
         PrintWriter output = game.getOutput();
 
-        output.println(String.format("Quest Card has been drawn!\nThis Quest has %d stages", stages)); output.flush();
+        output.println("Quest Card has been drawn!"); output.flush();
 
         sponsor = getSponsor(game);
 
@@ -60,11 +60,12 @@ public class QuestCard extends EventCard{
 
 
         for (int i = 0; i < stages; i++){
-            output.println("Eligible Players: ");
+            output.println(String.format("Eligible Players for stage %d: ", i));
             for (Player p : eligible){
                 output.println(String.format("Player %d", p.getNumber()+1));
             }
-
+            output.println("Press <enter> to continue");
+            output.flush();
             input.nextLine();
 
             ArrayList<Player> newEligible = new ArrayList<>();
@@ -94,8 +95,9 @@ public class QuestCard extends EventCard{
                 output.println(String.format("Player %d", p.getNumber()+1));
             }
 
-            output.println("All participating Players draw a card");output.flush();
+            output.println("All participating Players draw a card (Press <enter> to continue)");output.flush();
             input.nextLine();
+            game.flushScreen();
             for (Player p : eligible){
                 game.dealCardToPlayer(p.getNumber());
                 p.trimHand(input, output);
@@ -120,10 +122,6 @@ public class QuestCard extends EventCard{
                 if (getAttackValue(p.getNumber()) >= getStageValue(i)){
                     newEligible.add(p);
                 }
-            }
-
-            for (Player p : eligible){
-                output.println(getAttack(p.getNumber()));
             }
 
             eligible = getEligible(eligible, i);
@@ -163,6 +161,7 @@ public class QuestCard extends EventCard{
         int sponsorCheck = game.getTurnCount();
 
         for (int i = 0; i < game.playerAmount(); i++){
+            output.println(String.format("This Quest has %d stages", stages)); output.flush();
             game.getPlayer(sponsorCheck).printHand(output);
             output.println(String.format("Player %d, sponsor this quest? (y/n) ", sponsorCheck + 1)); output.flush();
             String decision = input.nextLine();
@@ -183,6 +182,7 @@ public class QuestCard extends EventCard{
         for (ArrayList<AdventureCard> arr : cards){
             sum += arr.size();
         }
+        game.getOutput().println(String.format("Sponsor draw %d cards for defending!", sum));
         game.dealCardsToPlayer(sponsor.getNumber(), sum);
 
         sponsor.trimHand(game.getInput(), game.getOutput());
@@ -229,6 +229,7 @@ public class QuestCard extends EventCard{
 
             String weapon = "";
             in = -1;
+            output.println(getStage(i));
 
             while(true){
                 output.println("Please select a Weapon to boost your Foe Card (enter 'Quit' to exit):");
