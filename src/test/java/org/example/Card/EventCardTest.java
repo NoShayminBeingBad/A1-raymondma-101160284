@@ -167,4 +167,72 @@ class EventCardTest {
         }
     }
 
+    @Test
+    @DisplayName("Plague card is displayed when drawn")
+    public void RESP_17_TEST_1(){
+        Scanner input = new Scanner("");
+        StringWriter output = new StringWriter();
+
+        Game game = new Game(4, input, new PrintWriter(output));
+        game.setUpGame();
+
+        game.getEventDeck().getCards().set(0, new PlagueCard());
+        game.drawEventCard();
+        game.playEventCard();
+
+        Assertions.assertTrue(output.toString().contains("Plague card has been drawn!"));
+
+    }
+
+    @Test
+    @DisplayName("Queen's Favor card is displayed when drawn")
+    public void RESP_17_TEST_2(){
+        Scanner input = new Scanner("");
+        StringWriter output = new StringWriter();
+
+        Game game = new Game(4, input, new PrintWriter(output));
+        game.setUpGame();
+
+        game.getEventDeck().getCards().set(0, new QueensFavorCard());
+        game.drawEventCard();
+        game.playEventCard();
+
+        Assertions.assertTrue(output.toString().contains("Queen's Favor card has been drawn!"));
+
+    }
+
+    @Test
+    @DisplayName("Prosperity card is displayed when drawn")
+    public void RESP_17_TEST_3(){
+        Scanner input = new Scanner("");
+        StringWriter output = new StringWriter();
+
+        Game game = new Game(4, input, new PrintWriter(output));
+        game.setUpGame();
+
+        game.getEventDeck().getCards().set(0, new ProsperityCard());
+        game.drawEventCard();
+        game.playEventCard();
+
+        Assertions.assertTrue(output.toString().contains("Prosperity card has been drawn!"));
+
+    }
+
+    @Test
+    @DisplayName("Quest card is displayed when drawn")
+    public void RESP_17_TEST_4(){
+        Scanner input = new Scanner("");
+        StringWriter output = new StringWriter();
+
+        Game game = new Game(4, input, new PrintWriter(output));
+        game.setUpGame();
+
+        game.getEventDeck().getCards().set(0, new QuestCard(2));
+        game.drawEventCard();
+        game.playEventCard();
+
+        Assertions.assertTrue(output.toString().contains("Quest card has been drawn!"));
+
+    }
+
 }
