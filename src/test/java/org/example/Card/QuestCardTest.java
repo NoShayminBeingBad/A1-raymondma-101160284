@@ -301,6 +301,54 @@ class QuestCardTest {
         Assertions.assertEquals(1, eligible.size());
     }
 
+    @Test
+    @DisplayName("Winners of the quest are awarded 2 shields")
+    public void RESP_16_TEST_1(){
+        Game game = new Game(4);
+        QuestCard qc = new QuestCard(2);
+
+        ArrayList<Player> players = game.getAllPlayers();
+
+        qc.playersWin(players);
+
+        for (Player player : players){
+            Assertions.assertEquals(2, player.getShieldNum());
+        }
+    }
+
+    @Test
+    @DisplayName("Winners of the quest are awarded 3 shields")
+    public void RESP_16_TEST_2(){
+        Game game = new Game(4);
+        QuestCard qc = new QuestCard(3);
+
+        ArrayList<Player> players = game.getAllPlayers();
+
+        qc.playersWin(players);
+
+        for (Player player : players){
+            Assertions.assertEquals(3, player.getShieldNum());
+        }
+    }
+
+    @Test
+    @DisplayName("Winners of the quest are awarded 2 shields")
+    public void RESP_16_TEST_3(){
+        Game game = new Game(4);
+        QuestCard qc = new QuestCard(2);
+
+        ArrayList<Player> players = game.getAllPlayers();
+        players.get(1).giveShield(2);
+        players.get(2).giveShield(4);
+
+        qc.playersWin(players);
+
+        Assertions.assertEquals(2, players.get(0).getShieldNum());
+        Assertions.assertEquals(4, players.get(1).getShieldNum());
+        Assertions.assertEquals(6, players.get(2).getShieldNum());
+        Assertions.assertEquals(2, players.get(3).getShieldNum());
+    }
+
     public Player getTestPlayer(){
         return getTestPlayer(0);
     }
