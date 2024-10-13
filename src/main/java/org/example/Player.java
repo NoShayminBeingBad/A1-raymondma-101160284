@@ -37,6 +37,10 @@ public class Player {
         return hand.remove(index);
     }
 
+    public void discardAllCards(){
+        this.hand = new ArrayList<>();
+    }
+
     public AdventureCard getCard(int index){
         return hand.get(index);
     }

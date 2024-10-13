@@ -39,28 +39,15 @@ class QuestCardTest {
         String input = "0\n6\nquit\n2\n7\nQuit\n\n";
         StringWriter output = new StringWriter();
 
-        Player player = new Player(0);
-
-        player.addToHand(new FoeCard(5));
-        player.addToHand(new FoeCard(70));
-        player.addToHand(new FoeCard(10));
-        player.addToHand(new WeaponCard("Dagger", 5));
-        player.addToHand(new WeaponCard("Excalibur", 30));
-        player.addToHand(new FoeCard(10));
-        player.addToHand(new FoeCard(20));
-        player.addToHand(new FoeCard(5));
-        player.addToHand(new FoeCard(15));
-        player.addToHand(new WeaponCard("Sword", 10));
-        player.addToHand(new WeaponCard("Horse", 10));
-        player.addToHand(new WeaponCard("Sword", 10));
+        Player player = getTestPlayer();
 
         QuestCard qc = new QuestCard(2);
         qc.setSponsor(player);
 
         qc.setStages(new Scanner(input), new PrintWriter(output));
 
-        Assertions.assertEquals("Stage 1: F5 D5 ", qc.getStage(0));
-        Assertions.assertEquals("Stage 2: F10 H10 ", qc.getStage(1));
+        Assertions.assertEquals("Stage 1 (10 BP): F5 D5 ", qc.getStage(0));
+        Assertions.assertEquals("Stage 2 (20 BP): F10 H10 ", qc.getStage(1));
     }
 
     @Test
@@ -70,30 +57,17 @@ class QuestCardTest {
         String input = "0\n6\nquit\n2\n\n7\nQuit\n2\n4\n4\nquit\n3\nquit\n\n";
         StringWriter output = new StringWriter();
 
-        Player player = new Player(0);
-
-        player.addToHand(new FoeCard(5));
-        player.addToHand(new FoeCard(70));
-        player.addToHand(new FoeCard(10));
-        player.addToHand(new WeaponCard("Dagger", 5));
-        player.addToHand(new WeaponCard("Excalibur", 30));
-        player.addToHand(new FoeCard(10));
-        player.addToHand(new FoeCard(20));
-        player.addToHand(new FoeCard(5));
-        player.addToHand(new FoeCard(15));
-        player.addToHand(new WeaponCard("Sword", 10));
-        player.addToHand(new WeaponCard("Horse", 10));
-        player.addToHand(new WeaponCard("Sword", 10));
+        Player player = getTestPlayer();
 
         QuestCard qc = new QuestCard(4);
         qc.setSponsor(player);
 
         qc.setStages(new Scanner(input), new PrintWriter(output));
 
-        Assertions.assertEquals("Stage 1: F5 D5 ", qc.getStage(0));
-        Assertions.assertEquals("Stage 2: F10 H10 ", qc.getStage(1));
-        Assertions.assertEquals("Stage 3: F15 S10 ", qc.getStage(2));
-        Assertions.assertEquals("Stage 4: F70 ", qc.getStage(3));
+        Assertions.assertEquals("Stage 1 (10 BP): F5 D5 ", qc.getStage(0));
+        Assertions.assertEquals("Stage 2 (20 BP): F10 H10 ", qc.getStage(1));
+        Assertions.assertEquals("Stage 3 (25 BP): F15 S10 ", qc.getStage(2));
+        Assertions.assertEquals("Stage 4 (70 BP): F70 ", qc.getStage(3));
     }
 
     @Test
@@ -103,28 +77,15 @@ class QuestCardTest {
         String input = "quit\n7\n5\n6\nquit\n2\n0\ntest\nquit\n5\n5\n7\nQuit\n\n";
         StringWriter output = new StringWriter();
 
-        Player player = new Player(0);
-
-        player.addToHand(new FoeCard(5));
-        player.addToHand(new FoeCard(70));
-        player.addToHand(new FoeCard(10));
-        player.addToHand(new WeaponCard("Dagger", 5));
-        player.addToHand(new WeaponCard("Excalibur", 30));
-        player.addToHand(new FoeCard(10));
-        player.addToHand(new FoeCard(20));
-        player.addToHand(new FoeCard(5));
-        player.addToHand(new FoeCard(15));
-        player.addToHand(new WeaponCard("Sword", 10));
-        player.addToHand(new WeaponCard("Horse", 10));
-        player.addToHand(new WeaponCard("Sword", 10));
+        Player player = getTestPlayer();
 
         QuestCard qc = new QuestCard(2);
         qc.setSponsor(player);
 
         qc.setStages(new Scanner(input), new PrintWriter(output));
 
-        Assertions.assertEquals("Stage 1: F20 D5 ", qc.getStage(0));
-        Assertions.assertEquals("Stage 2: F10 S10 E30 ", qc.getStage(1));
+        Assertions.assertEquals("Stage 1 (25 BP): F20 D5 ", qc.getStage(0));
+        Assertions.assertEquals("Stage 2 (50 BP): F10 S10 E30 ", qc.getStage(1));
 
         Assertions.assertTrue(output.toString().contains("A stage cannot be empty"));
         Assertions.assertTrue(output.toString().contains("Insufficient value for this stage"));
@@ -141,26 +102,13 @@ class QuestCardTest {
         String input = "8\n7\n8\nquit\n";
         StringWriter output = new StringWriter();
 
-        Player player = new Player(2);
-
-        player.addToHand(new FoeCard(5));
-        player.addToHand(new FoeCard(70));
-        player.addToHand(new FoeCard(10));
-        player.addToHand(new WeaponCard("Dagger", 5));
-        player.addToHand(new WeaponCard("Excalibur", 30));
-        player.addToHand(new FoeCard(10));
-        player.addToHand(new FoeCard(20));
-        player.addToHand(new FoeCard(5));
-        player.addToHand(new FoeCard(15));
-        player.addToHand(new WeaponCard("Sword", 10));
-        player.addToHand(new WeaponCard("Horse", 10));
-        player.addToHand(new WeaponCard("Sword", 10));
+        Player player = getTestPlayer(2);
 
         QuestCard qc = new QuestCard(2);
 
         qc.setAttack(new Scanner(input), new PrintWriter(output), player);
 
-        Assertions.assertEquals("Attack from Player 3: D5 S10 H10 ", qc.getAttack(player.getNumber()));
+        Assertions.assertEquals("Attack from Player 3 (25 BP): D5 S10 H10 ", qc.getAttack(player.getNumber()));
 
     }
 
@@ -171,27 +119,13 @@ class QuestCardTest {
         String input = "quit\n0\n8\n8\ntest\n11\nquit\n";
         StringWriter output = new StringWriter();
 
-        Player player = new Player(1);
-
-        player.addToHand(new FoeCard(5));
-        player.addToHand(new FoeCard(70));
-        player.addToHand(new FoeCard(10));
-        player.addToHand(new WeaponCard("Dagger", 5));
-        player.addToHand(new WeaponCard("Excalibur", 30));
-        player.addToHand(new FoeCard(10));
-        player.addToHand(new FoeCard(20));
-        player.addToHand(new FoeCard(5));
-        player.addToHand(new FoeCard(15));
-        player.addToHand(new WeaponCard("Sword", 10));
-        player.addToHand(new WeaponCard("Horse", 10));
-        player.addToHand(new WeaponCard("Horse", 10));
-        player.addToHand(new WeaponCard("Sword", 10));
+        Player player = getTestPlayer(1);
 
         QuestCard qc = new QuestCard(2);
 
         qc.setAttack(new Scanner(input), new PrintWriter(output), player);
 
-        Assertions.assertEquals("Attack from Player 2: S10 E30 ", qc.getAttack(player.getNumber()));
+        Assertions.assertEquals("Attack from Player 2 (40 BP): S10 E30 ", qc.getAttack(player.getNumber()));
 
         Assertions.assertTrue(output.toString().contains("Your attack cannot be empty"));
         Assertions.assertTrue(output.toString().contains("Card selected is not an Weapon Card"));
@@ -203,28 +137,15 @@ class QuestCardTest {
     @DisplayName("All players decline a quest after sponsor sets up a quest")
     public void RESP_11_TEST_1(){
         String input = "y\n0\n6\nquit\n2\n7\nQuit\n\n" + // sponsor sets quest
-                "\nn\nn\nn\n";
+                "\nn\nn\nn\n" +
+                "0\n0\n";;
         StringWriter output = new StringWriter();
 
         Game game = new Game(4, new Scanner(input), new PrintWriter(output));
 
         game.setUpGame();
 
-        Player player = game.getPlayer(0);
-        player.discardCards(12);
-
-        player.addToHand(new FoeCard(5));
-        player.addToHand(new FoeCard(70));
-        player.addToHand(new FoeCard(10));
-        player.addToHand(new WeaponCard("Dagger", 5));
-        player.addToHand(new WeaponCard("Excalibur", 30));
-        player.addToHand(new FoeCard(10));
-        player.addToHand(new FoeCard(20));
-        player.addToHand(new FoeCard(5));
-        player.addToHand(new FoeCard(15));
-        player.addToHand(new WeaponCard("Sword", 10));
-        player.addToHand(new WeaponCard("Horse", 10));
-        player.addToHand(new WeaponCard("Sword", 10));
+        setPlayer(game.getPlayer(0));
 
         game.getEventDeck().getCards().set(0, new QuestCard(2));
         game.drawEventCard();
@@ -245,21 +166,7 @@ class QuestCardTest {
 
         game.setUpGame();
 
-        Player player = game.getPlayer(3);
-        player.discardCards(12);
-
-        player.addToHand(new FoeCard(5));
-        player.addToHand(new FoeCard(70));
-        player.addToHand(new FoeCard(10));
-        player.addToHand(new WeaponCard("Dagger", 5));
-        player.addToHand(new WeaponCard("Excalibur", 30));
-        player.addToHand(new FoeCard(10));
-        player.addToHand(new FoeCard(20));
-        player.addToHand(new FoeCard(5));
-        player.addToHand(new FoeCard(15));
-        player.addToHand(new WeaponCard("Sword", 10));
-        player.addToHand(new WeaponCard("Horse", 10));
-        player.addToHand(new WeaponCard("Sword", 10));
+        setPlayer(game.getPlayer(3));
 
         game.getEventDeck().getCards().set(0, new QuestCard(2));
         game.drawEventCard();
@@ -277,20 +184,7 @@ class QuestCardTest {
         Game game = new Game(4);
         game.setUpDecks();
 
-        Player player = game.getPlayer(0);
-
-        player.addToHand(new FoeCard(5));
-        player.addToHand(new FoeCard(70));
-        player.addToHand(new FoeCard(10));
-        player.addToHand(new WeaponCard("Dagger", 5));
-        player.addToHand(new WeaponCard("Excalibur", 30));
-        player.addToHand(new FoeCard(10));
-        player.addToHand(new FoeCard(20));
-        player.addToHand(new FoeCard(5));
-        player.addToHand(new FoeCard(15));
-        player.addToHand(new WeaponCard("Sword", 10));
-        player.addToHand(new WeaponCard("Horse", 10));
-        player.addToHand(new WeaponCard("Sword", 10));
+        Player player = setPlayer(game.getPlayer(0));
 
         QuestCard qc = new QuestCard(2);
         qc.setSponsor(player);
@@ -316,7 +210,30 @@ class QuestCardTest {
         Game game = new Game(4, new Scanner(input), new PrintWriter(output));
         game.setUpDecks();
 
-        Player player = game.getPlayer(0);
+        Player player = setPlayer(game.getPlayer(0))
+
+        QuestCard qc = new QuestCard(4);
+        qc.setSponsor(player);
+
+        qc.setStages(game.getInput(), game.getOutput());
+
+        qc.sponsorWins(game);
+
+        Assertions.assertEquals(12, player.getHand().size());
+    }
+
+    public Player getTestPlayer(){
+        return getTestPlayer(0);
+    }
+
+    public Player getTestPlayer(int num){
+        Player p = new Player(num);
+        setPlayer(p);
+        return p;
+    }
+
+    public Player setPlayer(Player player){
+        player.discardAllCards();
 
         player.addToHand(new FoeCard(5));
         player.addToHand(new FoeCard(70));
@@ -331,14 +248,7 @@ class QuestCardTest {
         player.addToHand(new WeaponCard("Horse", 10));
         player.addToHand(new WeaponCard("Sword", 10));
 
-        QuestCard qc = new QuestCard(4);
-        qc.setSponsor(player);
-
-        qc.setStages(game.getInput(), game.getOutput());
-
-        qc.sponsorWins(game);
-
-        Assertions.assertEquals(12, player.getHand().size());
+        return player;
     }
 
 }
