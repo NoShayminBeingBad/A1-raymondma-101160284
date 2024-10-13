@@ -37,29 +37,79 @@ public class QuestCard extends EventCard{
         Scanner input = game.getInput();
         PrintWriter output = game.getOutput();
 
-        output.println(String.format("Quest Card has been drawn!\nThis Quest has %d stages", stages));
+        output.println(String.format("Quest Card has been drawn!\nThis Quest has %d stages", stages)); output.flush();
 
-
-        int sponsorCheck = game.getTurnCount();
-
-        for (int i = 0; i < game.playerAmount(); i++){
-            game.getPlayer(sponsorCheck).printHand(output);
-            output.print(String.format("Player %d, sponsor this quest? (y/n) ", sponsorCheck + 1)); output.flush();
-            String decision = input.nextLine();
-            output.println("");
-            if (decision.charAt(0) == 'y'){
-                sponsor = game.getPlayer(sponsorCheck);
-                break;
-            }else {
-                sponsorCheck = nextPlayer(sponsorCheck);
-                continue;
-            }
-        }
+        sponsor = getSponsor(game);
 
         if (sponsor == null){
             output.println("No sponsor, quest has been canceled"); output.flush();
             return;
         }
+
+        setStages(input, output);
+
+        game.flushScreen();
+
+        ArrayList<Player> eligible = new ArrayList<>();
+        int playerTurn = nextPlayer(sponsor.getNumber());
+
+        output.println("Eligible Players: ");
+        for (int i = 0; i < game.getAllPlayers().size() - 1; i++){
+            eligible.add(game.getPlayer(playerTurn));
+            output.println(String.format("Player %d", playerTurn));
+            playerTurn = nextPlayer(playerTurn);
+        }
+
+        input.nextLine();
+
+
+        for (int i = 0; i < stages; i++){
+            ArrayList<Player> newEligible = new ArrayList<>();
+            for (Player player : eligible){
+                game.flushScreen();
+                output.println(getStageCensored(i));
+                player.printHand(output);
+                output.println(String.format("Player %d, would you like to participate in this stage? (y/n)", player.getNumber()+1)); output.flush();
+                String in = input.nextLine();
+                if (in.equalsIgnoreCase("y")){
+                    newEligible.add(player);
+                }
+            }
+
+            game.flushScreen();
+
+            eligible = newEligible;
+
+            if (eligible.isEmpty()){
+                output.println("No eligible players can take this quest"); output.flush();
+                return;
+            }
+
+        }
+
+    }
+
+    public Player getSponsor(Game game){
+        Scanner input = game.getInput();
+        PrintWriter output = game.getOutput();
+
+        int sponsorCheck = game.getTurnCount();
+
+        for (int i = 0; i < game.playerAmount(); i++){
+            game.getPlayer(sponsorCheck).printHand(output);
+            output.println(String.format("Player %d, sponsor this quest? (y/n) ", sponsorCheck + 1)); output.flush();
+            String decision = input.nextLine();
+            if (decision.equals("y")){
+                return game.getPlayer(sponsorCheck);
+            }else {
+                game.flushScreen();
+                sponsorCheck = nextPlayer(sponsorCheck);
+                continue;
+            }
+        }
+
+        return null;
+    }
 
     }
 
@@ -208,6 +258,16 @@ public class QuestCard extends EventCard{
 
         for (AdventureCard c : cards[stageNum]){
             s = s.concat(String.format("%s ", c.toString()));
+        }
+
+        return s;
+    }
+
+    public String getStageCensored(int stageNum){
+        String s = String.format("Stage %d: ", stageNum + 1);
+
+        for (AdventureCard c : cards[stageNum]){
+            s = s.concat("[] ");
         }
 
         return s;

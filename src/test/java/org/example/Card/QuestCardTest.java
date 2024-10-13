@@ -203,7 +203,7 @@ class QuestCardTest {
     @DisplayName("All players decline a quest after sponsor sets up a quest")
     public void RESP_11_TEST_1(){
         String input = "y\n0\n6\nquit\n2\n7\nQuit\n\n" + // sponsor sets quest
-                "n\nn\nn\n";
+                "\nn\nn\nn\n";
         StringWriter output = new StringWriter();
 
         Game game = new Game(4, new Scanner(input), new PrintWriter(output));
@@ -237,7 +237,7 @@ class QuestCardTest {
     @DisplayName("All players decline a quest after player 4 sets up a quest")
     public void RESP_11_TEST_2(){
         String input = "n\nn\nn\ny\n0\n6\nquit\n2\n7\nQuit\n\n" + // sponsor sets quest
-                "n\nn\nn\n";
+                "\nn\nn\nn\n";
         StringWriter output = new StringWriter();
 
         Game game = new Game(4, new Scanner(input), new PrintWriter(output));
@@ -265,7 +265,5 @@ class QuestCardTest {
         game.playEventCard();
 
         Assertions.assertTrue(output.toString().contains("No eligible players can take this quest"));
-        System.out.println(output.toString());
     }
-
 }

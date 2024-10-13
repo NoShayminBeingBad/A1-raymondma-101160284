@@ -55,6 +55,12 @@ public class Game {
         players.get(player).addToHand(adventureDeck.draw());
     }
 
+    public void dealCardsToPlayer(int player, int amount){
+        for (int i = 0; i < amount; i++){
+            dealCardToPlayer(player);
+        }
+    }
+
     public void setUpDecks(){
         this.adventureDeck = new Deck<>();
         adventureDeck.addCards(new FoeCard(5), 8);
@@ -140,6 +146,10 @@ public class Game {
 
     public Player getPlayer(int p){
         return players.get(p);
+    }
+
+    public ArrayList<Player> getAllPlayers(){
+        return players;
     }
 
     public int getTurnCount(){
