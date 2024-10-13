@@ -89,7 +89,69 @@ public class QuestCard extends EventCard{
                 return;
             }
 
+            output.println("Participating Players: ");
+            for (Player p : eligible){
+                output.println(String.format("Player %d", p.getNumber()+1));
+            }
+
+            output.println("All participating Players draw a card");output.flush();
+            input.nextLine();
+            for (Player p : eligible){
+                game.dealCardToPlayer(p.getNumber());
+                p.trimHand(input, output);
+                game.flushScreen();
+            }
+
+            this.attackers = new ArrayList[4];
+            output.println("All participating Players set up their attack");output.flush();
+            input.nextLine();
+            for (Player p : eligible){
+                setAttack(input, output, p);
+                game.flushScreen();
+            }
+
+            output.println("Cards will now be revealed");output.flush();
+            input.nextLine();
+
+            newEligible = new ArrayList<>();
+            output.println(getStage(i));
+            for (Player p : eligible){
+                output.println(getAttack(p.getNumber()));
+                if (getAttackValue(p.getNumber()) >= getStageValue(i)){
+                    newEligible.add(p);
+                }
+            }
+
+            for (Player p : eligible){
+                output.println(getAttack(p.getNumber()));
+            }
+
+            eligible = getEligible(eligible, i);
+
+            output.println("These players have passed this stage!");
+            for (Player p : eligible){
+                output.println(String.format("Player %d", p.getNumber()+1));
+            }
+            output.flush();
+
+            if (eligible.isEmpty()){
+                output.println("No eligible players can take this quest"); output.flush();
+                sponsorWins(game);
+                return;
+            }
+
         }
+
+        if (eligible.isEmpty()){
+            output.println("No eligible players can take this quest"); output.flush();
+            sponsorWins(game);
+            return;
+        }else {
+            output.println(String.format("Congrats for winning the quest!\nYou will receive %d shields", stages));
+            game.printShields();
+        }
+
+        input.nextLine();
 
     }
 
@@ -239,6 +301,16 @@ public class QuestCard extends EventCard{
         output.println(getAttack(playerNum)); output.flush();
     }
 
+    public ArrayList<Player> getEligible(ArrayList<Player> old, int stage){
+        ArrayList<Player> newEligible = new ArrayList();
+        for (Player p : old){
+            if (getAttackValue(p.getNumber()) >= getStageValue(stage)){
+                newEligible.add(p);
+            }
+        }
+        return newEligible;
+    }
+
     public boolean repeatWeapon(ArrayList<AdventureCard> set, AdventureCard card){
 
         for (AdventureCard ac : set){
@@ -265,18 +337,22 @@ public class QuestCard extends EventCard{
     }
 
     public String getStage(int stageNum){
-        String s = String.format("Stage %d: ", stageNum + 1);
+        String s = "";
         Collections.sort(cards[stageNum]);
+        int sum = 0;
 
         for (AdventureCard c : cards[stageNum]){
             s = s.concat(String.format("%s ", c.toString()));
+            sum += c.getBP();
         }
+
+        s = String.format("Stage %d (%d BP): ", stageNum + 1, sum).concat(s);
 
         return s;
     }
 
     public String getStageCensored(int stageNum){
-        String s = String.format("Stage %d: ", stageNum + 1);
+        String s = String.format("Stage %d (?? BP): ", stageNum + 1);
 
         for (AdventureCard c : cards[stageNum]){
             s = s.concat("[] ");
@@ -296,12 +372,16 @@ public class QuestCard extends EventCard{
     }
 
     public String getAttack(int player){
-        String s = String.format("Attack from Player %d: ", player + 1);
+        String s = "";
         Collections.sort(attackers[player]);
+        int sum = 0;
 
         for (AdventureCard c : attackers[player]){
             s = s.concat(String.format("%s ", c.toString()));
+            sum += c.getBP();
         }
+
+        s = String.format("Attack from Player %d (%d BP): ", player + 1, sum).concat(s);
 
         return s;
     }

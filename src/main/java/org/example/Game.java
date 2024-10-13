@@ -92,6 +92,24 @@ public class Game {
         eventDeck.addCards(new ProsperityCard(), 2);
     }
 
+    public void gameplay(){
+        boolean winner = false;
+        turnCount = -1;
+        output.println("Let the games begin!"); output.flush();
+
+        while (!winner){
+
+            flushTurn();
+
+            drawEventCard();
+
+            playEventCard();
+
+            winner = outputWinner();
+        }
+
+    }
+
     public void flushScreen(){
         output.print("\n\n\n\n\n\n\n\n\n\n");
         output.flush();
@@ -119,6 +137,14 @@ public class Game {
 
     public void playEventCard(){
         eventCard.Event(this);
+    }
+
+    public void printShields(){
+        output.println("Player Shield Amount");
+        for(int i = 0; i < playerAmount(); i++){
+            output.println(String.format("Player %d: %d Shields", i+1, players.get(i).getShieldNum()));
+        }
+        output.flush();
     }
 
     public boolean outputWinner(){
