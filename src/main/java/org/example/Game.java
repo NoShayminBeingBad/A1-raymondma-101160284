@@ -133,6 +133,7 @@ public class Game {
 
     public void drawEventCard() {
         eventCard = eventDeck.draw();
+        output.println(String.format("%s card has been drawn!", eventCard.getTitle()));
     }
 
     public void playEventCard(){

@@ -13,7 +13,7 @@ public class ProsperityCard extends EventCard{
 
     @Override
     public void Event(Game game) {
-        game.getOutput().println("The Prosperity Card has been drawn! Everyone draws 2 cards!"); game.getOutput().flush();
+        game.getOutput().println("Everyone draws 2 cards!"); game.getOutput().flush();
         int p = game.getTurnCount();
 
         game.getInput().nextLine();
