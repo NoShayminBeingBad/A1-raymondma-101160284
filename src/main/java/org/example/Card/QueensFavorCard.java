@@ -13,7 +13,7 @@ public class QueensFavorCard extends EventCard{
 
     @Override
     public void Event(Game game) {
-        game.getOutput().println(String.format("The Queen's Favor Card has been drawn! Player %d draws 2 cards!", game.getTurnCount()));
+        game.getOutput().println(String.format("The Queen's Favor Card has been drawn! Player %d draws 2 cards!", game.getTurnCount()+1));
         game.dealCardToPlayer(game.getTurnCount());
         game.dealCardToPlayer(game.getTurnCount());
         game.getPlayer(game.getTurnCount()).printHand(game.getOutput());
