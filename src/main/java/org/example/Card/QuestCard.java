@@ -37,8 +37,6 @@ public class QuestCard extends EventCard{
         Scanner input = game.getInput();
         PrintWriter output = game.getOutput();
 
-        output.println("Quest Card has been drawn!"); output.flush();
-
         sponsor = getSponsor(game);
 
         if (sponsor == null){
@@ -51,16 +49,19 @@ public class QuestCard extends EventCard{
         game.flushScreen();
 
         ArrayList<Player> eligible = new ArrayList<>();
-        int playerTurn = nextPlayer(sponsor.getNumber());
+        int playerTurn = game.getTurnCount();
 
         for (int i = 0; i < game.getAllPlayers().size() - 1; i++){
+            if (sponsor.getNumber() == playerTurn) {
+                playerTurn = nextPlayer(playerTurn);
+            }
             eligible.add(game.getPlayer(playerTurn));
             playerTurn = nextPlayer(playerTurn);
         }
 
 
         for (int i = 0; i < stages; i++){
-            output.println(String.format("Eligible Players for stage %d: ", i));
+            output.println(String.format("Eligible Players for stage %d: ", i+1));
             for (Player p : eligible){
                 output.println(String.format("Player %d", p.getNumber()+1));
             }

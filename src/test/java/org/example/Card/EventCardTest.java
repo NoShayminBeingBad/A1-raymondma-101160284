@@ -178,7 +178,6 @@ class EventCardTest {
 
         game.getEventDeck().getCards().set(0, new PlagueCard());
         game.drawEventCard();
-        game.playEventCard();
 
         Assertions.assertTrue(output.toString().contains("Plague card has been drawn!"));
 
@@ -195,7 +194,6 @@ class EventCardTest {
 
         game.getEventDeck().getCards().set(0, new QueensFavorCard());
         game.drawEventCard();
-        game.playEventCard();
 
         Assertions.assertTrue(output.toString().contains("Queen's Favor card has been drawn!"));
 
@@ -212,7 +210,6 @@ class EventCardTest {
 
         game.getEventDeck().getCards().set(0, new ProsperityCard());
         game.drawEventCard();
-        game.playEventCard();
 
         Assertions.assertTrue(output.toString().contains("Prosperity card has been drawn!"));
 
@@ -229,7 +226,6 @@ class EventCardTest {
 
         game.getEventDeck().getCards().set(0, new QuestCard(2));
         game.drawEventCard();
-        game.playEventCard();
 
         Assertions.assertTrue(output.toString().contains("Quest card has been drawn!"));
 

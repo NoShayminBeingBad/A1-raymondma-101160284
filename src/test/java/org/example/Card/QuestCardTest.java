@@ -27,8 +27,7 @@ class QuestCardTest {
         game.getEventDeck().getCards().set(0, new QuestCard(2));
         game.drawEventCard();
         game.playEventCard();
-
-        Assertions.assertTrue(output.toString().contains("Quest Card has been drawn!"));
+        
         Assertions.assertTrue(output.toString().contains("This Quest has 2 stages"));
         Assertions.assertTrue(output.toString().contains("No sponsor, quest has been canceled"));
     }
