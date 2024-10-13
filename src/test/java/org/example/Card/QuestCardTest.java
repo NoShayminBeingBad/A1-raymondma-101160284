@@ -100,7 +100,7 @@ class QuestCardTest {
     @DisplayName("Player sets up a quest for 2 stages, checks for errors")
     public void RESP_9_TEST_3(){
         //"Player 1's Hand: F5 F5 F10 F10 F15 F20 F70 D5 S10 S10 H10 E30"
-        String input = "quit\n7\n5\n6\nquit\n2\n0\ntest\nquit\n8\nQuit\n\n";
+        String input = "quit\n7\n5\n6\nquit\n2\n0\ntest\nquit\n5\n5\n7\nQuit\n\n";
         StringWriter output = new StringWriter();
 
         Player player = new Player(0);
@@ -124,12 +124,78 @@ class QuestCardTest {
         qc.setStages(new Scanner(input), new PrintWriter(output));
 
         Assertions.assertEquals("Stage 1: F20 D5 ", qc.getStage(0));
-        Assertions.assertEquals("Stage 2: F10 E30 ", qc.getStage(1));
+        Assertions.assertEquals("Stage 2: F10 S10 E30 ", qc.getStage(1));
 
         Assertions.assertTrue(output.toString().contains("A stage cannot be empty"));
         Assertions.assertTrue(output.toString().contains("Insufficient value for this stage"));
+        Assertions.assertTrue(output.toString().contains("That Weapon is already used"));
         Assertions.assertTrue(output.toString().contains("Card selected is not an Foe Card"));
         Assertions.assertTrue(output.toString().contains("Card selected is not an Weapon Card"));
+        Assertions.assertTrue(output.toString().contains("That is not a valid input. Please enter an index or 'Quit'"));
+    }
+
+    @Test
+    @DisplayName("Player 3 gets ready for quest")
+    public void RESP_10_TEST_1(){
+        //"Player 1's Hand: F5 F5 F10 F10 F15 F20 F70 D5 S10 S10 H10 E30"
+        String input = "8\n7\n8\nquit\n";
+        StringWriter output = new StringWriter();
+
+        Player player = new Player(2);
+
+        player.addToHand(new FoeCard(5));
+        player.addToHand(new FoeCard(70));
+        player.addToHand(new FoeCard(10));
+        player.addToHand(new WeaponCard("Dagger", 5));
+        player.addToHand(new WeaponCard("Excalibur", 30));
+        player.addToHand(new FoeCard(10));
+        player.addToHand(new FoeCard(20));
+        player.addToHand(new FoeCard(5));
+        player.addToHand(new FoeCard(15));
+        player.addToHand(new WeaponCard("Sword", 10));
+        player.addToHand(new WeaponCard("Horse", 10));
+        player.addToHand(new WeaponCard("Sword", 10));
+
+        QuestCard qc = new QuestCard(2);
+
+        qc.setAttack(new Scanner(input), new PrintWriter(output), player);
+
+        Assertions.assertEquals("Attack from Player 3: D5 S10 H10 ", qc.getAttack(player.getNumber()));
+
+    }
+
+    @Test
+    @DisplayName("Player gets ready for quest, checks for error")
+    public void RESP_10_TEST_2(){
+        //"Player 1's Hand: F5 F5 F10 F10 F15 F20 F70 D5 S10 S10 H10 E30"
+        String input = "quit\n0\n8\n8\ntest\n11\nquit\n";
+        StringWriter output = new StringWriter();
+
+        Player player = new Player(1);
+
+        player.addToHand(new FoeCard(5));
+        player.addToHand(new FoeCard(70));
+        player.addToHand(new FoeCard(10));
+        player.addToHand(new WeaponCard("Dagger", 5));
+        player.addToHand(new WeaponCard("Excalibur", 30));
+        player.addToHand(new FoeCard(10));
+        player.addToHand(new FoeCard(20));
+        player.addToHand(new FoeCard(5));
+        player.addToHand(new FoeCard(15));
+        player.addToHand(new WeaponCard("Sword", 10));
+        player.addToHand(new WeaponCard("Horse", 10));
+        player.addToHand(new WeaponCard("Horse", 10));
+        player.addToHand(new WeaponCard("Sword", 10));
+
+        QuestCard qc = new QuestCard(2);
+
+        qc.setAttack(new Scanner(input), new PrintWriter(output), player);
+
+        Assertions.assertEquals("Attack from Player 2: S10 E30 ", qc.getAttack(player.getNumber()));
+
+        Assertions.assertTrue(output.toString().contains("Your attack cannot be empty"));
+        Assertions.assertTrue(output.toString().contains("Card selected is not an Weapon Card"));
+        Assertions.assertTrue(output.toString().contains("That Weapon is already used"));
         Assertions.assertTrue(output.toString().contains("That is not a valid input. Please enter an index or 'Quit'"));
     }
 

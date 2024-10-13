@@ -94,7 +94,7 @@ public class QuestCard extends EventCard{
             cards[i].add(sponsor.discardCard(in));
 
             String weapon = "";
-            //in = -1;
+            in = -1;
 
             while(true){
                 output.println("Please select a Weapon to boost your Foe Card (enter 'Quit' to exit):");
@@ -127,6 +127,13 @@ public class QuestCard extends EventCard{
         input.nextLine();
     }
 
+    public void setAttack(Scanner input, PrintWriter output, Player player){
+        output.println(getAttack(playerNum)); output.flush();
+
+
+        return false;
+    }
+
     public int getStageValue(int stageNum){
         if (stageNum < 0){
             return 0;
@@ -148,6 +155,15 @@ public class QuestCard extends EventCard{
             s = s.concat(String.format("%s ", c.toString()));
         }
 
+        return s;
+    }
+
+    public int getAttackValue(int player){
+        int v = 0;
+        return v;
+    }
+    public String getAttack(int player){
+        String s = String.format("Attack from Player %d: ", player + 1);
         return s;
     }
 
