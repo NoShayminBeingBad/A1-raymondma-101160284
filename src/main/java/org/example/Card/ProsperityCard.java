@@ -16,6 +16,8 @@ public class ProsperityCard extends EventCard{
         game.getOutput().println("The Prosperity Card has been drawn! Everyone draws 2 cards!"); game.getOutput().flush();
         int p = game.getTurnCount();
 
+        game.getInput().nextLine();
+
         for (int i = 0; i < game.playerAmount(); i++){
             game.dealCardToPlayer(p);
             game.dealCardToPlayer(p);
