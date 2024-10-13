@@ -82,6 +82,7 @@ public class QuestCard extends EventCard{
 
             if (eligible.isEmpty()){
                 output.println("No eligible players can take this quest"); output.flush();
+                sponsorWins(game);
                 return;
             }
 
@@ -112,7 +113,13 @@ public class QuestCard extends EventCard{
     }
 
     public void sponsorWins(Game game){
+        int sum = stages;
+        for (ArrayList<AdventureCard> arr : cards){
+            sum += arr.size();
+        }
+        game.dealCardsToPlayer(sponsor.getNumber(), sum);
 
+        sponsor.trimHand(game.getInput(), game.getOutput());
     }
 
     public void setStages(Scanner input, PrintWriter output) {
