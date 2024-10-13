@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -116,7 +117,7 @@ class QuestCardTest {
     @DisplayName("Player gets ready for quest, checks for error")
     public void RESP_10_TEST_2(){
         //"Player 1's Hand: F5 F5 F10 F10 F15 F20 F70 D5 S10 S10 H10 E30"
-        String input = "quit\n0\n8\n8\ntest\n11\nquit\n";
+        String input = "quit\n0\n8\n8\ntest\n10\nquit\n";
         StringWriter output = new StringWriter();
 
         Player player = getTestPlayer(1);
@@ -210,7 +211,7 @@ class QuestCardTest {
         Game game = new Game(4, new Scanner(input), new PrintWriter(output));
         game.setUpDecks();
 
-        Player player = setPlayer(game.getPlayer(0))
+        Player player = setPlayer(game.getPlayer(0));
 
         QuestCard qc = new QuestCard(4);
         qc.setSponsor(player);
@@ -220,6 +221,84 @@ class QuestCardTest {
         qc.sponsorWins(game);
 
         Assertions.assertEquals(12, player.getHand().size());
+    }
+
+    @Test
+    @DisplayName("Properly process eligible winners of a stage")
+    public void RESP_15_TEST_1(){
+        //Stage 1 (10 BP): F15 D5
+        String input = "4\n6\nquit\n\n";
+        StringWriter output = new StringWriter();
+
+        Player player = getTestPlayer();
+
+        QuestCard qc = new QuestCard(1);
+        qc.setSponsor(player);
+
+        qc.setStages(new Scanner(input), new PrintWriter(output));
+
+        //Attack from Player 2 (25 BP): D5 S10 H10
+        String input2 = "8\n7\n8\nquit\n";
+        StringWriter output2 = new StringWriter();
+
+        Player attacker1 = getTestPlayer(1);
+
+        qc.setAttack(new Scanner(input2), new PrintWriter(output2), attacker1);
+
+        //Attack from Player 3 (25 BP): D5 S10 H10
+        String input3 = "8\n7\n8\nquit\n";
+        StringWriter output3 = new StringWriter();
+
+        Player attacker2 = getTestPlayer(2);
+
+        qc.setAttack(new Scanner(input3), new PrintWriter(output3), attacker2);
+
+        ArrayList<Player> eligible = new ArrayList<>();
+        eligible.add(attacker1);
+        eligible.add(attacker2);
+
+        eligible = qc.getEligible(eligible, 0);
+
+        Assertions.assertEquals(2, eligible.size());
+    }
+
+    @Test
+    @DisplayName("Properly process eligible winners of a stage, Player 3 does not pass")
+    public void RESP_15_TEST_2(){
+        //Stage 1 (10 BP): F15 D5
+        String input = "4\n6\nquit\n\n";
+        StringWriter output = new StringWriter();
+
+        Player player = getTestPlayer();
+
+        QuestCard qc = new QuestCard(1);
+        qc.setSponsor(player);
+
+        qc.setStages(new Scanner(input), new PrintWriter(output));
+
+        //Attack from Player 2 (25 BP): D5 S10 H10
+        String input2 = "8\n7\n8\nquit\n";
+        StringWriter output2 = new StringWriter();
+
+        Player attacker1 = getTestPlayer(1);
+
+        qc.setAttack(new Scanner(input2), new PrintWriter(output2), attacker1);
+
+        //Attack from Player 3 (25 BP): D5
+        String input3 = "8\nquit\n";
+        StringWriter output3 = new StringWriter();
+
+        Player attacker2 = getTestPlayer(2);
+
+        qc.setAttack(new Scanner(input3), new PrintWriter(output3), attacker2);
+
+        ArrayList<Player> eligible = new ArrayList<>();
+        eligible.add(attacker1);
+        eligible.add(attacker2);
+
+        eligible = qc.getEligible(eligible, 0);
+
+        Assertions.assertEquals(1, eligible.size());
     }
 
     public Player getTestPlayer(){
