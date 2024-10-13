@@ -111,6 +111,8 @@ public class QuestCard extends EventCard{
         return null;
     }
 
+    public void sponsorWins(Game game){
+
     }
 
     public void setStages(Scanner input, PrintWriter output) {
