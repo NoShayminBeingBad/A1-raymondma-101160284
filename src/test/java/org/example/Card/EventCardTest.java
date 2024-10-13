@@ -111,4 +111,60 @@ class EventCardTest {
         Assertions.assertEquals(12, game.getPlayer(game.getTurnCount()).getHand().size());
     }
 
+    @Test
+    @DisplayName("Player draws Prosperity card")
+    public void RESP_14_TEST_1(){
+        Scanner input = new Scanner("\n\n\n\n\n");
+        StringWriter output = new StringWriter();
+
+        Game game = new Game(4, input, new PrintWriter(output));
+        game.setUpGame();
+
+        game.getPlayer(0).discardCards(3);
+        game.getPlayer(1).discardCards(2);
+        game.getPlayer(2).discardCards(4);
+        game.getPlayer(3).discardCards(12);
+
+        int[] cardsBefore = {game.getPlayer(0).getHand().size(),
+                game.getPlayer(1).getHand().size(),
+                game.getPlayer(2).getHand().size(),
+                game.getPlayer(3).getHand().size()};
+
+        game.getEventDeck().getCards().set(0, new ProsperityCard());
+        game.drawEventCard();
+        game.playEventCard();
+
+        for (int i = 0; i < cardsBefore.length; i++) {
+            Assertions.assertEquals(cardsBefore[i] + 2, game.getPlayer(i).getHand().size());
+        }
+    }
+
+    @Test
+    @DisplayName("Player draws Prosperity card and players 1 and 3 need to discard cards")
+    public void RESP_14_TEST_2(){
+        Scanner input = new Scanner("\n3\n\n\n8\n10\n\n\n");
+        StringWriter output = new StringWriter();
+
+        Game game = new Game(4, input, new PrintWriter(output));
+        game.setUpGame();
+
+        //remove cards from player 1, 2 and 4
+        game.getPlayer(0).discardCard(1);
+        game.getPlayer(1).discardCards(2);
+        game.getPlayer(3).discardCards(12);
+
+        int[] cardsBefore = {game.getPlayer(0).getHand().size(),
+                game.getPlayer(1).getHand().size(),
+                game.getPlayer(2).getHand().size(),
+                game.getPlayer(3).getHand().size()};
+
+        game.getEventDeck().getCards().set(0, new ProsperityCard());
+        game.drawEventCard();
+        game.playEventCard();
+
+        for (int i = 0; i < cardsBefore.length; i++) {
+            Assertions.assertEquals(Math.min(cardsBefore[i] + 2, 12), game.getPlayer(i).getHand().size());
+        }
+    }
+
 }
