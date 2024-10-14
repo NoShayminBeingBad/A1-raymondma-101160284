@@ -81,6 +81,10 @@ public class Player {
     }
 
     public void printHand(PrintWriter output){
+        output.println(this); output.flush();
+    }
+
+    public String toString(){
         Collections.sort(hand);
         String h = String.format("Player %d's Hand: ", number + 1);
 
@@ -88,7 +92,7 @@ public class Player {
             h = h.concat(String.format("%s ", c.toString()));
         }
 
-        output.println(h); output.flush();
+        return h;
     }
 
 }

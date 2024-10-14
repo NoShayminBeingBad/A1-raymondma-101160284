@@ -131,6 +131,10 @@ public class Game {
         }
     }
 
+    public void setTurnCount(int t){
+        this.turnCount = t;
+    }
+
     public void drawEventCard() {
         eventCard = eventDeck.draw();
         output.println(String.format("%s card has been drawn!", eventCard.getTitle()));
@@ -138,6 +142,10 @@ public class Game {
 
     public void playEventCard(){
         eventCard.Event(this);
+    }
+
+    public EventCard getEventCard(){
+        return eventCard;
     }
 
     public void printShields(){

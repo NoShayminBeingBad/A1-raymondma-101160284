@@ -153,6 +153,10 @@ public class QuestCard extends EventCard{
 
         input.nextLine();
 
+        game.flushScreen();
+        sponsorWins(game);
+        game.flushScreen();
+
     }
 
     public Player getSponsor(Game game){
