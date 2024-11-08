@@ -1,5 +1,6 @@
 package org.example.Card;
 
+import io.cucumber.java.bs.A;
 import org.example.Game;
 import org.example.Player;
 
@@ -11,7 +12,9 @@ import java.util.Scanner;
 public class QuestCard extends EventCard{
 
     private int stages;
+    private int currStage;
     private Player sponsor;
+    private ArrayList<Player> eligible;
     private ArrayList<AdventureCard>[] cards;
 
     private ArrayList<AdventureCard>[] attackers;
@@ -19,8 +22,10 @@ public class QuestCard extends EventCard{
     public QuestCard(int stages) {
         super("Quest");
         this.stages = stages;
+        this.currStage = 0;
         this.cards = new ArrayList[stages];
         this.attackers = new ArrayList[4];
+        this.eligible = new ArrayList<>();
         this.sponsor = null;
     }
 
@@ -48,16 +53,7 @@ public class QuestCard extends EventCard{
 
         game.flushScreen();
 
-        ArrayList<Player> eligible = new ArrayList<>();
-        int playerTurn = game.getTurnCount();
-
-        for (int i = 0; i < game.getAllPlayers().size() - 1; i++){
-            if (sponsor.getNumber() == playerTurn) {
-                playerTurn = nextPlayer(playerTurn);
-            }
-            eligible.add(game.getPlayer(playerTurn));
-            playerTurn = nextPlayer(playerTurn);
-        }
+        setEligible(game);
 
 
         for (int i = 0; i < stages; i++){
@@ -69,21 +65,9 @@ public class QuestCard extends EventCard{
             output.flush();
             input.nextLine();
 
-            ArrayList<Player> newEligible = new ArrayList<>();
-            for (Player player : eligible){
-                game.flushScreen();
-                output.println(getStageCensored(i));
-                player.printHand(output);
-                output.println(String.format("Player %d, would you like to participate in this stage? (y/n)", player.getNumber()+1)); output.flush();
-                String in = input.nextLine();
-                if (in.equalsIgnoreCase("y")){
-                    newEligible.add(player);
-                }
-            }
+            eligible = getParticipating(game, i, eligible);
 
             game.flushScreen();
-
-            eligible = newEligible;
 
             if (eligible.isEmpty()){
                 output.println("No eligible players can take this quest"); output.flush();
@@ -116,16 +100,7 @@ public class QuestCard extends EventCard{
             output.println("Cards will now be revealed");output.flush();
             input.nextLine();
 
-            newEligible = new ArrayList<>();
-            output.println(getStage(i));
-            for (Player p : eligible){
-                output.println(getAttack(p.getNumber()));
-                if (getAttackValue(p.getNumber()) >= getStageValue(i)){
-                    newEligible.add(p);
-                }
-            }
-
-            eligible = getEligible(eligible, i);
+            eligible = getPassed(eligible, i);
 
             output.println("These players have passed this stage!");
             for (Player p : eligible){
@@ -141,22 +116,21 @@ public class QuestCard extends EventCard{
 
         }
 
-        if (eligible.isEmpty()){
-            output.println("No eligible players can take this quest"); output.flush();
-            sponsorWins(game);
-            return;
-        }else {
-            output.println(String.format("Congrats for winning the quest!\nYou will receive %d shields", stages));
-            playersWin(eligible);
-            game.printShields();
+        resolveQuest(game);
+
+    }
+
+    public void setEligible(Game game){
+        eligible = new ArrayList<>();
+        int playerTurn = game.getTurnCount();
+
+        for (int i = 0; i < game.getAllPlayers().size() - 1; i++){
+            if (sponsor.getNumber() == playerTurn) {
+                playerTurn = nextPlayer(playerTurn);
+            }
+            eligible.add(game.getPlayer(playerTurn));
+            playerTurn = nextPlayer(playerTurn);
         }
-
-        input.nextLine();
-
-        game.flushScreen();
-        sponsorWins(game);
-        game.flushScreen();
-
     }
 
     public Player getSponsor(Game game){
@@ -183,14 +157,38 @@ public class QuestCard extends EventCard{
     }
 
     public void sponsorWins(Game game){
-        int sum = stages;
-        for (ArrayList<AdventureCard> arr : cards){
-            sum += arr.size();
-        }
+        int sum = stages + sponsorUsedCards();
         game.getOutput().println(String.format("Sponsor draw %d cards for defending!", sum));
         game.dealCardsToPlayer(sponsor.getNumber(), sum);
 
         sponsor.trimHand(game.getInput(), game.getOutput());
+    }
+
+    public int sponsorUsedCards(){
+        int sum = 0;
+        for (ArrayList<AdventureCard> arr : cards){
+            sum += arr.size();
+        }
+        return sum;
+    }
+
+    public ArrayList<Player> getParticipating(Game game, int stage, ArrayList<Player> eligible){
+        Scanner input = game.getInput();
+        PrintWriter output = game.getOutput();
+
+        ArrayList<Player> newEligible = new ArrayList<>();
+        for (Player player : eligible){
+            game.flushScreen();
+            output.println(getStageCensored(stage));
+            player.printHand(output);
+            output.println(String.format("Player %d, would you like to participate in this stage? (y/n)", player.getNumber()+1)); output.flush();
+            String in = input.nextLine();
+            if (in.equalsIgnoreCase("y")){
+                newEligible.add(player);
+            }
+        }
+
+        return newEligible;
     }
 
     public void playersWin(ArrayList<Player> players){
@@ -199,77 +197,101 @@ public class QuestCard extends EventCard{
         }
     }
 
+    public void resolveQuest(Game game){
+        Scanner input = game.getInput();
+        PrintWriter output = game.getOutput();
+
+        if (eligible.isEmpty()){
+            output.println("No eligible players can take this quest. You have been defeated!"); output.flush();
+        }else {
+            output.println(String.format("Congrats for winning the quest!\nYou will receive %d shields", stages));
+            playersWin(eligible);
+            game.printShields();
+        }
+
+        game.flushScreen();
+        input.nextLine();
+
+        game.flushScreen();
+        sponsorWins(game);
+        game.flushScreen();
+    }
+
     public void setStages(Scanner input, PrintWriter output) {
 
         output.println(String.format("Player %d, please set the stages for this quest", sponsor.getNumber()+1));
 
         for (int i = 0; i < stages; i++){
-            cards[i] = new ArrayList<>();
-            String foe = "";
-            int in = -1;
-
-            output.println(String.format("Stage %d", i + 1));
-
-            while (true){
-                output.println("Please select 1 Foe:");
-                sponsor.printHand(output); output.flush();
-                foe = input.nextLine();
-
-                try {
-                    in = Integer.parseInt(foe);
-                    if (sponsor.getCard(in) instanceof FoeCard){
-                        break;
-                    }else {
-                        output.println("Card selected is not an Foe Card");
-                    }
-                } catch (NumberFormatException e) {
-                    if (foe.equalsIgnoreCase("quit")){
-                        output.println("A stage cannot be empty");
-                    }else {
-                        output.println("That is not a valid input. Please enter an index or 'Quit'");
-                    }
-                }
-            }
-            cards[i].add(sponsor.discardCard(in));
-
-            String weapon = "";
-            in = -1;
-            output.println(getStage(i));
-
-            while(true){
-                output.println("Please select a Weapon to boost your Foe Card (enter 'Quit' to exit):");
-                sponsor.printHand(output); output.flush();
-                weapon = input.nextLine();
-
-                try {
-                    in = Integer.parseInt(weapon);
-                    AdventureCard ac = sponsor.getCard(in);
-                    if (ac instanceof WeaponCard){
-                        if(!repeatWeapon(cards[i], ac)){
-                            cards[i].add(sponsor.discardCard(in));
-                        }else {
-                            output.println("That Weapon is already used");
-                        }
-                    }else {
-                        output.println("Card selected is not an Weapon Card");
-                    }
-                } catch (NumberFormatException e) {
-                    if (weapon.equalsIgnoreCase("quit")){
-                        if (getStageValue(i) <= getStageValue(i-1)){
-                            output.println("Insufficient value for this stage");
-                            continue;
-                        }
-                        break;
-                    }else {
-                        output.println("That is not a valid input. Please enter an index or 'Quit'");
-                    }
-                }
-            }
-            output.println(getStage(i));
+            setStage(input, output, i);
         }
 
         output.println("The Quest has been set. (press <return> to clear screen)"); output.flush();
         input.nextLine();
+    }
+
+    public void setStage(Scanner input, PrintWriter output, int stage){
+        cards[stage] = new ArrayList<>();
+        String foe = "";
+        int in = -1;
+
+        output.println(String.format("Stage %d", stage + 1));
+
+        while (true){
+            output.println("Please select 1 Foe:");
+            sponsor.printHand(output); output.flush();
+            foe = input.nextLine();
+
+            try {
+                in = Integer.parseInt(foe);
+                if (sponsor.getCard(in) instanceof FoeCard){
+                    break;
+                }else {
+                    output.println("Card selected is not an Foe Card");
+                }
+            } catch (NumberFormatException e) {
+                if (foe.equalsIgnoreCase("quit")){
+                    output.println("A stage cannot be empty");
+                }else {
+                    output.println("That is not a valid input. Please enter an index or 'Quit'");
+                }
+            }
+        }
+        cards[stage].add(sponsor.discardCard(in));
+
+        String weapon = "";
+        in = -1;
+        output.println(getStage(stage));
+
+        while(true){
+            output.println("Please select a Weapon to boost your Foe Card (enter 'Quit' to exit):");
+            sponsor.printHand(output); output.flush();
+            weapon = input.nextLine();
+
+            try {
+                in = Integer.parseInt(weapon);
+                AdventureCard ac = sponsor.getCard(in);
+                if (ac instanceof WeaponCard){
+                    if(!repeatWeapon(cards[stage], ac)){
+                        cards[stage].add(sponsor.discardCard(in));
+                    }else {
+                        output.println("That Weapon is already used");
+                    }
+                }else {
+                    output.println("Card selected is not an Weapon Card");
+                }
+            } catch (NumberFormatException e) {
+                if (weapon.equalsIgnoreCase("quit")){
+                    if (getStageValue(stage) <= getStageValue(stage-1)){
+                        output.println("Insufficient value for this stage");
+                        continue;
+                    }
+                    break;
+                }else {
+                    output.println("That is not a valid input. Please enter an index or 'Quit'");
+                }
+            }
+        }
+        output.println(getStage(stage));
     }
 
     public void setAttack(Scanner input, PrintWriter output, Player player){
@@ -300,10 +322,10 @@ public class QuestCard extends EventCard{
                 }
             } catch (NumberFormatException e) {
                 if (weapon.equalsIgnoreCase("quit")) {
-                    if (attackers[playerNum].isEmpty()) {
+                    /*if (attackers[playerNum].isEmpty()) {
                         output.println("Your attack cannot be empty");
                         continue;
-                    }
+                    }*/
                     break;
                 } else {
                     output.println("That is not a valid input. Please enter an index or 'Quit'");
@@ -314,13 +336,14 @@ public class QuestCard extends EventCard{
         output.println(getAttack(playerNum)); output.flush();
     }
 
-    public ArrayList<Player> getEligible(ArrayList<Player> old, int stage){
+    public ArrayList<Player> getPassed(ArrayList<Player> old, int stage){
         ArrayList<Player> newEligible = new ArrayList();
         for (Player p : old){
             if (getAttackValue(p.getNumber()) >= getStageValue(stage)){
                 newEligible.add(p);
             }
         }
+        this.currStage++;
         return newEligible;
     }
 
@@ -408,5 +431,21 @@ public class QuestCard extends EventCard{
 
     public void setSponsor(Player p){
         this.sponsor = p;
+    }
+
+    public Player getSponsorPlayer(){
+        return this.sponsor;
+    }
+
+    public ArrayList<Player> getEligible(){
+        return eligible;
+    }
+
+    public void setEligible(ArrayList<Player> eligible){
+        this.eligible = eligible;
+    }
+
+    public int getCurrStage(){
+        return this.currStage;
     }
 }

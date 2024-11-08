@@ -116,7 +116,7 @@ class QuestCardTest {
     @DisplayName("Player gets ready for quest, checks for error")
     public void RESP_10_TEST_2(){
         //"Player 1's Hand: F5 F5 F10 F10 F15 F20 F70 D5 S10 S10 H10 E30"
-        String input = "quit\n0\n8\n8\ntest\n10\nquit\n";
+        String input = "0\n8\n8\ntest\n10\nquit\n";
         StringWriter output = new StringWriter();
 
         Player player = getTestPlayer(1);
@@ -127,7 +127,6 @@ class QuestCardTest {
 
         Assertions.assertEquals("Attack from Player 2 (40 BP): S10 E30 ", qc.getAttack(player.getNumber()));
 
-        Assertions.assertTrue(output.toString().contains("Your attack cannot be empty"));
         Assertions.assertTrue(output.toString().contains("Card selected is not an Weapon Card"));
         Assertions.assertTrue(output.toString().contains("That Weapon is already used"));
         Assertions.assertTrue(output.toString().contains("That is not a valid input. Please enter an index or 'Quit'"));
@@ -256,7 +255,7 @@ class QuestCardTest {
         eligible.add(attacker1);
         eligible.add(attacker2);
 
-        eligible = qc.getEligible(eligible, 0);
+        eligible = qc.getPassed(eligible, 0);
 
         Assertions.assertEquals(2, eligible.size());
     }
@@ -295,7 +294,7 @@ class QuestCardTest {
         eligible.add(attacker1);
         eligible.add(attacker2);
 
-        eligible = qc.getEligible(eligible, 0);
+        eligible = qc.getPassed(eligible, 0);
 
         Assertions.assertEquals(1, eligible.size());
     }

@@ -24,6 +24,7 @@ public class Player {
 
     public void addToHand(AdventureCard card){
         hand.add(card);
+        Collections.sort(hand);
     }
 
     //For testing purposes

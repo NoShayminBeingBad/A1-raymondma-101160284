@@ -171,6 +171,13 @@ public class Game {
         return returnVal;
     }
 
+    public int nextPlayer(int i){
+        if (i+1 > 3){
+            return 0;
+        }
+        return i+1;
+    }
+
     public Deck<AdventureCard> getAdventureDeck(){
         return adventureDeck;
     }
@@ -201,5 +208,9 @@ public class Game {
 
     public PrintWriter getOutput() {
         return output;
+    }
+
+    public void setInput(Scanner newInput) {
+        this.input = newInput;
     }
 }
