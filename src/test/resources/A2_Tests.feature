@@ -134,8 +134,6 @@ Feature: Assignment 2 Tests
     And Player 2 is a winner
     And Player 4 is a winner
 
-    And player hands
-
   Scenario: 1winner_game_with_events
     Given a rigged game
     When Player 1 draws a 4 stage quest
@@ -232,6 +230,9 @@ Feature: Assignment 2 Tests
     And the quest resolves
     And Player 2 won the quest
     And Player 3 won the quest
+    And Player 2 has 5 shields
+    And Player 3 has 7 shields
+    And Player 4 has 4 shields
     And Player 3 is a winner
 
   Scenario: 0_winner_quest
@@ -245,4 +246,10 @@ Feature: Assignment 2 Tests
     And the stage resolves
     And the quest resolves
     And the quest has 0 winners
+    And Player 2 has 0 shields
+    And Player 3 has 0 shields
+    And Player 4 has 0 shields
     And Player 1 has new cards
+    And Player 2 has new cards
+    And Player 3 has new cards
+    And Player 4 has new cards
