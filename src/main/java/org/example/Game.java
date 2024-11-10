@@ -61,6 +61,10 @@ public class Game {
         }
     }
 
+    public void emptyDeck(){
+        adventureDeck = new Deck<>();
+    }
+
     public void setUpDecks(){
         this.adventureDeck = new Deck<>();
         adventureDeck.addCards(new FoeCard(5), 8);

@@ -183,7 +183,6 @@ Feature: Assignment 2 Tests
     And Player 3 sets "Lance, Sword" for attack
     And Player 4 sets "Lance, Sword" for attack
     And the stage resolves
-    And player hands
     And the quest resolves
     And Player 2 won the quest
     And Player 3 won the quest
@@ -199,17 +198,17 @@ Feature: Assignment 2 Tests
     And Player 4 has 12 cards
     And Player 1 draws a 3 stage quest
     And Player 1 sponsors the quest
-    And Sponsor sets "Foe 5" for stage 1
-    And Sponsor sets "Foe 5, Sword" for stage 2
-    And Sponsor sets "Foe 15, Horse" for stage 3
+    And Sponsor sets "Foe 15" for stage 1
+    And Sponsor sets "Foe 15, Sword" for stage 2
+    And Sponsor sets "Foe 15, Battle-Axe" for stage 3
     And all eligible players participate
     And Player 2 does participate in the stage
     And Player 2 trims hand and discards "Foe 5"
     And Player 3 does participate in the stage
     And Player 4 does participate in the stage
-    And Player 4 trims hand and discards "Foe 5"
-    And Player 2 sets "Dagger" for attack
-    And Player 3 sets "Sword" for attack
+    And Player 4 trims hand and discards "Foe 15"
+    And Player 2 sets "Battle-Axe" for attack
+    And Player 3 sets "Sword, Horse" for attack
     And Player 4 plays to lose
     And the stage resolves
     And Player 2 passed the stage
@@ -217,15 +216,15 @@ Feature: Assignment 2 Tests
     And Player 4 lost the stage
     And Player 2 does participate in the stage
     And Player 3 does participate in the stage
-    And Player 2 sets "Battle-Axe" for attack
-    And Player 3 sets "Sword, Horse" for attack
+    And Player 2 sets "Battle-Axe, Horse" for attack
+    And Player 3 sets "Battle-Axe, Sword" for attack
     And the stage resolves
     And Player 2 passed the stage
     And Player 3 passed the stage
     And Player 2 does participate in the stage
     And Player 3 does participate in the stage
     And Player 2 sets "Lance, Battle-Axe" for attack
-    And Player 3 sets "Battle-Axe, Lance" for attack
+    And Player 3 sets "Excalibur, Lance" for attack
     And the stage resolves
     And the quest resolves
     And Player 2 won the quest
@@ -234,6 +233,7 @@ Feature: Assignment 2 Tests
     And Player 3 has 7 shields
     And Player 4 has 4 shields
     And Player 3 is a winner
+
 
   Scenario: 0_winner_quest
     Given a rigged game

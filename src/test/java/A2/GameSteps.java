@@ -173,25 +173,26 @@ public class GameSteps {
         game.getAdventureDeck().getCards().set(7, new WeaponCard("Sword", 10));
         game.getAdventureDeck().getCards().set(8, new FoeCard(30));
         game.getAdventureDeck().getCards().set(9, new WeaponCard("Lance", 20));
-        game.getAdventureDeck().getCards().set(10, new FoeCard(5));
+        game.getAdventureDeck().getCards().set(10, new FoeCard(10));
         game.getAdventureDeck().getCards().set(11, new FoeCard(15));
         game.getAdventureDeck().getCards().set(12, new FoeCard(5));
         game.getAdventureDeck().getCards().set(13, new FoeCard(15));
-        game.getAdventureDeck().getCards().set(14, new FoeCard(5));
+        game.getAdventureDeck().getCards().set(14, new WeaponCard("Battle-Axe", 15));
         game.getAdventureDeck().getCards().set(15, new WeaponCard("Lance", 20));
-        game.getAdventureDeck().getCards().set(16, new FoeCard(5));
-        game.getAdventureDeck().getCards().set(17, new FoeCard(5));
-        game.getAdventureDeck().getCards().set(18, new FoeCard(5));
-        game.getAdventureDeck().getCards().set(19, new FoeCard(5));
+        game.getAdventureDeck().getCards().set(16, new FoeCard(15));
+        game.getAdventureDeck().getCards().set(17, new WeaponCard("Lance", 20));
+        game.getAdventureDeck().getCards().set(18, new FoeCard(50));
+        game.getAdventureDeck().getCards().set(19, new WeaponCard("Excalibur", 30));
         game.getAdventureDeck().getCards().set(20, new WeaponCard("Horse", 10));
-        game.getAdventureDeck().getCards().set(21, new FoeCard(5));
+        game.getAdventureDeck().getCards().set(21, new WeaponCard("Battle-Axe", 15));//End of  first quest
         game.getAdventureDeck().getCards().set(22, new WeaponCard("Horse", 10));
-        game.getAdventureDeck().getCards().set(23, new FoeCard(5));
-        game.getAdventureDeck().getCards().set(24, new FoeCard(20));
-        game.getAdventureDeck().getCards().set(25, new WeaponCard("Horse", 10));
+        game.getAdventureDeck().getCards().set(23, new WeaponCard("Excalibur", 30));
+        game.getAdventureDeck().getCards().set(24, new FoeCard(40));
+        game.getAdventureDeck().getCards().set(25, new FoeCard(20));
         game.getAdventureDeck().getCards().set(26, new FoeCard(15));
-        game.getAdventureDeck().getCards().set(27, new FoeCard(5));
-        game.getAdventureDeck().getCards().set(28, new WeaponCard("Lance", 20));
+        game.getAdventureDeck().getCards().set(27, new FoeCard(15));
+        game.getAdventureDeck().getCards().set(28, new WeaponCard("Horse", 10));
+        game.getAdventureDeck().getCards().set(29, new WeaponCard("Battle-Axe", 15));
     }
 
     @Given("a new game")
@@ -291,6 +292,7 @@ public class GameSteps {
 
         for (int i = 0; i < cards.length; i++){
             int index = searchHand(handCopy, cards[i]);
+            assertNotEquals(-1, index);
             input += String.format("%d\n", index);
             handCopy.remove(index);
         }
@@ -315,6 +317,7 @@ public class GameSteps {
 
         for (int i = 0; i < cards.length; i++){
             int index = searchHand(handCopy, cards[i]);
+            assertNotEquals(-1, index);
             input += String.format("%d\n", index);
             handCopy.remove(index);
         }
@@ -336,6 +339,7 @@ public class GameSteps {
 
         for (int i = 0; i < cards.length; i++){
             int index = searchHand(handCopy, cards[i]);
+            assertNotEquals(-1, index);
             input += String.format("%d\n", index);
             handCopy.remove(index);
         }
@@ -350,7 +354,7 @@ public class GameSteps {
             }
         }
 
-        return 0;
+        return -1;
     }
 
     @Then("Sponsor sets stage {int}")
@@ -371,8 +375,12 @@ public class GameSteps {
         player--;
         QuestCard qc = (QuestCard) game.getEventCard();
 
+        String input = "y\n";
+
+        game.setInput(new Scanner(input));
+        qc.playerParticipating(game, qc.getCurrStage(), game.getPlayer(player));
+
         assertTrue(qc.getEligible().contains(game.getPlayer(player)));
-        game.dealCardToPlayer(player);
     }
 
     @Then("Player {int} does not participate in the stage")
@@ -380,7 +388,12 @@ public class GameSteps {
         player--;
         QuestCard qc = (QuestCard) game.getEventCard();
 
-        qc.getEligible().remove(game.getPlayer(player));
+        String input = "n\n";
+
+        game.setInput(new Scanner(input));
+        qc.playerParticipating(game, qc.getCurrStage(), game.getPlayer(player));
+
+        assertFalse(qc.getEligible().contains(game.getPlayer(player)));
     }
 
 
@@ -466,9 +479,10 @@ public class GameSteps {
         QuestCard qc = (QuestCard) game.getEventCard();
 
         String input = "\n";
-
+        int handSize = qc.getSponsorPlayer().getHand().size() + (qc.getStageAmount() + qc.sponsorUsedCards());
         for (int i = 0; i < (qc.getSponsorPlayer().getHand().size() + (qc.getStageAmount() + qc.sponsorUsedCards())) - 12; i++){
-            input += "0\n";
+            handSize--;
+            input += String.format("%d\n", handSize);
         }
 
         game.setInput(new Scanner(input));
@@ -534,5 +548,10 @@ public class GameSteps {
         for (Player p : game.getAllPlayers()){
             System.out.println(p);
         }
+    }
+
+    @Then("top deck")
+    public void deck(){
+        System.out.println(game.getAdventureDeck().getCards().get(0));
     }
 }

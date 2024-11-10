@@ -191,6 +191,24 @@ public class QuestCard extends EventCard{
         return newEligible;
     }
 
+    public boolean playerParticipating(Game game, int stage, Player player){
+        Scanner input = game.getInput();
+        PrintWriter output = game.getOutput();
+
+        game.flushScreen();
+        output.println(getStageCensored(stage));
+        player.printHand(output);
+        output.println(String.format("Player %d, would you like to participate in this stage? (y/n)", player.getNumber()+1)); output.flush();
+        String in = input.nextLine();
+        if (!in.equalsIgnoreCase("y")){
+            eligible.remove(player);
+        }else {
+            game.dealCardToPlayer(player.getNumber());
+        }
+
+        return in.equalsIgnoreCase("y");
+    }
+
     public void playersWin(ArrayList<Player> players){
         for (Player p : players){
             p.giveShield(stages);
