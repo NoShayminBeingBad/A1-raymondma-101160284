@@ -724,14 +724,14 @@ public class SeleniumTest {
 
     public void sendMessage(String message) throws InterruptedException {
         driver.findElement(By.id("in")).sendKeys(message);
-        Thread.sleep(100);
+        Thread.sleep(1000);
         driver.findElement(By.id("submit")).click();
         Thread.sleep(500);
     }
 
     public void sendBlank() throws InterruptedException {
         driver.findElement(By.id("submit")).click();
-        Thread.sleep(500);
+        Thread.sleep(1000);
     }
 
 }
