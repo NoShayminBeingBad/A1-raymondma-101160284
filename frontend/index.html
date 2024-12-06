@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<!-- saved from url=(0099)file:///C:/Users/Raymond/Desktop/Class/The%20End/4004/A3/A1-raymondma-101160284/frontend/index.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quest</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="container">
+    <button id="startButton" onclick="startGame()">Start</button>
+    <button id="a1" onclick="a1()">A1 Scenario</button>
+    <button id="scenario_2" onclick="scenario_2()">2winner_game_2winner_quest</button>
+    <button id="scenario_3" onclick="scenario_3()">1winner_game_with_events</button>
+    <button id="scenario_4" onclick="scenario_4()">0_winner_quest</button>
+</div>
+<div class="text">
+    <div class="console" id="textbox">
+        Waiting for game to start...
+    </div>
+    <br>
+    <div>Please select the cards you want to submit ("2 3 5 10")</div>
+    <div class="game-status">
+        <label for="in">input: </label><input type="text" id="in" name="in">
+        <button id="submit" onclick="submit()">submit</button>
+    </div>
+    <div id="gameState"></div>
+</div>
+<div class="a"><br>
+</div>
+<div class="container">
+    <div class="player card">
+        Player 1
+        <div id="p1hand"></div>
+        Shields: <div id="p1shields">0</div>
+    </div>
+
+    <div class="player card">
+        Player 2
+        <div id="p2hand"></div>
+        Shields: <div id="p2shields">0</div>
+    </div>
+    <div class="player card">
+        Player 3
+        <div id="p3hand"></div>
+        Shields: <div id="p3shields">0</div>
+    </div>
+    <div class="player card">
+        Player 4
+        <div id="p4hand"></div>
+        Shields: <div id="p4shields">0</div>
+    </div>
+</div>
+<script src="script.js"></script>
+
+
+</body></html>
